@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Запрещаем масштабирование -->
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+  <title>Дзеркало душі — Односторінковий додаток</title>
+  
+  <!-- Подключение шрифта Great Vibes (только для заголовка и кнопок) -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  
+  <!-- Подключение красивого курсивного шрифта (Allura) -->
+  <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
+
+  <style>
+    /* Общие стили */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      overflow-x: hidden;
+      overflow-y: hidden;
+    }
+    body {
+      font-family: 'Allura', cursive;
+      background: linear-gradient(135deg, #12122b, #232342);
+      color: #fff;
+      height: 100vh;
+      position: relative;
+      font-size: 1.3rem;
+      line-height: 1.3;
+    }
+    
+    .btn, .content, .deck-icons, .icon-btn {
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.show, .fade-in.fade-in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    body, h1, h2, h3, h4, h5, h6, p, li, a, button, .btn, .highlight {
+      text-shadow: 2px 2px 4px rgba(0,0,0,1);
+    }
+    
+    /* Preloader */
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #1e1e2f;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      transition: opacity 0.3s ease;
+    }
+    .spinner {
+      border: 4px solid rgba(64,224,208,0.2);
+      border-top: 4px solid rgba(64,224,208,0.8);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Анимированное название */
+    .glowing-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3rem;
+      font-weight: bold;
+      color: #fff;
+      margin-top: -10px;
+      margin-bottom: 10px;
+      animation: glow 2s ease-in-out infinite alternate;
+      text-align: center;
+    }
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 2px rgba(255,255,255,0.3), 0 0 4px rgba(255,255,255,0.3);
+      }
+      to {
+        text-shadow: 0 0 3px rgba(255,255,255,0.4), 0 0 5px rgba(255,255,255,0.4);
+      }
+    }
+    
+    .highlight {
+      color: #fff;
+      text-shadow: 0 0 6px rgba(255,255,255,0.8);
+    }
+    
+    /* Главное меню */
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      max-width: 90%;
+      margin: 0 auto;
+      padding: 10px;
+    }
+    
+    .greeting p {
+      font-family: Georgia, serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      line-height: 1.3;
+      max-width: 100%;
+      text-align: justify;
+      margin-bottom: 10px;
+      margin-top: 20px;
+    }
+    
+    .btn {
+      font-family: 'Great Vibes', cursive;
+      font-style: normal;
+      min-width: 250px;
+      padding: 15px 30px;
+      font-size: 1.8rem;
+      background: rgba(64,224,208,0.2);
+      border: 1px solid rgba(64,224,208,0.5);
+      border-radius: 6px;
+      cursor: pointer;
+      color: #fff;
+      text-align: center;
+      box-shadow: 0 0 4px rgba(64,224,208,0.5);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn:hover {
+      background: rgba(64,224,208,0.4);
+      box-shadow: 0 0 6px rgba(64,224,208,0.6);
+    }
+    .btn:active {
+      transform: scale(0.95);
+    }
+    .btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(64,224,208,0.5), transparent 70%);
+      opacity: 0;
+      animation: buttonGlow 2.5s infinite;
+      z-index: -1;
+    }
+    @keyframes buttonGlow {
+      0% { opacity: 0; }
+      50% { opacity: 0.5; }
+      100% { opacity: 0; }
+    }
+    
+    /* Кнопки "Назад", "Продовжити" и кнопка звука */
+    .btn.back-btn, .btn.continue-btn, .btn.sound-btn {
+      padding: 4px 10px;
+      min-width: auto;
+      min-height: auto;
+      width: auto;
+      height: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn.back-btn img, .btn.continue-btn img, .btn.sound-btn img {
+      width: 16px;
+      height: 16px;
+      filter: brightness(0) invert(1);
+    }
+    .btn.back-btn img {
+      transform: rotate(180deg);
+    }
+    .btn.continue-btn img {
+      transform: scaleY(-1);
+    }
+    
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 10px;
+    }
+    
+    /* Изменённый стиль для центрального текста между кнопками */
+    .center-text {
+      font-family: Georgia, serif;
+      font-size: 1rem; /* уменьшенный размер для вмещения в одну строку */
+      font-style: italic;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0,0,0,1);
+      margin: 0 10px;
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+    
+    /* Стили для кнопки звука: светится при включении, тусклая при выключении */
+    .btn.sound-btn {
+      transition: opacity 0.5s ease, box-shadow 0.5s ease;
+    }
+    .btn.sound-btn:not(.muted) {
+      box-shadow: 0 0 8px rgba(64,224,208,0.8);
+      opacity: 1;
+    }
+    .btn.sound-btn.muted {
+      opacity: 0.5;
+      box-shadow: none;
+    }
+    
+    /* Иконки под карточками */
+    .deck-icons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      margin-top: 15px;
+    }
+    .icon-btn {
+      width: 50px;
+      height: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(64,224,208,0.2);
+      border: 1px solid rgba(64,224,208,0.5);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.5s ease;
+    }
+    .icon-btn:hover {
+      background: rgba(64,224,208,0.4);
+      box-shadow: 0 0 8px rgba(64,224,208,0.7);
+    }
+    .icon-btn:active {
+      transform: scale(0.95);
+    }
+    .icon-btn img {
+      width: 30px;
+      height: 30px;
+      filter: brightness(0) invert(1);
+    }
+    
+    /* Социальные иконки */
+    .social-left {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      display: flex;
+      gap: 15px;
+      z-index: 11000;
+    }
+    .social-right {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 11000;
+    }
+    .social-left a, .social-right a {
+      outline: none;
+      border: none;
+      background: none;
+    }
+    .social-left img, .social-right img {
+      width: 20px;
+      height: 20px; 
+      filter: brightness(0) invert(1);
+    }
+    
+    /* Секции */
+    .section {
+      display: none;
+      padding: 10px;
+      z-index: 2;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+      overflow: hidden;
+    }
+    /* Для секции "Як це працює?" возвращаем скроллинг */
+    #sectionDiary {
+      overflow-y: auto !important;
+    }
+    .section.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .content {
+      max-width: 90%;
+      margin: 30px auto 0 auto;
+      font-size: 1.6rem;
+      line-height: 1.5;
+      text-align: justify;
+      color: #fff;
+      padding: 0 20px;
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    /* Расширение описания в секции "Як це працює?" */
+    #sectionDiary .content {
+      max-width: 100%;
+      padding: 20px;
+    }
+    
+    .how-it-works-text p,
+    .how-it-works-text ul,
+    .how-it-works-text ol {
+      margin-bottom: 15px;
+    }
+    
+    /* Секция "Як це працює?" с расширенным описанием */
+    .how-it-works-text {
+      padding: 15px;
+      text-align: justify;
+      font-size: 1.2rem;
+      font-family: Georgia, serif;
+      font-style: italic;
+      text-shadow: none;
+    }
+    
+    /* Секция "Розгорнути колоду" */
+    #sectionDeckInfo {
+      overflow: hidden;
+    }
+    #sectionDeckInfo .content {
+      max-width: 90%;
+      margin: 40px auto 0 auto;
+      font-size: 1.6rem;
+      line-height: 1.5;
+      text-align: justify;
+      color: #fff;
+      padding: 0 20px;
+    }
+    #sectionDeckInfo .content li,
+    #sectionDeckInfo .content p,
+    #sectionDeckInfo .content ol {
+      font-family: Georgia, serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      line-height: 1.3;
+      text-shadow: none;
+      text-align: justify;
+    }
+    
+    /* Секция "Мак‑карти" */
+    #sectionMakKarti {
+      overflow: hidden;
+    }
+    #sectionMakKarti .content {
+      max-width: 90%;
+      margin: -5px auto 0 auto;
+      font-size: 1.6rem;
+      line-height: 1.5;
+      text-align: center;
+      position: relative;
+      padding: 10px;
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 80px);
+      grid-auto-rows: 112px;
+      gap: 10px;
+      justify-content: center;
+      align-items: start;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .card-container {
+      width: 80px;
+      height: 112px;
+      perspective: 1000px;
+      position: relative;
+      opacity: 0;
+      transition: opacity 6s ease, transform 6s ease;
+    }
+    .card-container.fade-in {
+      opacity: 1;
+      transform: none;
+    }
+    .small-card {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      border: 1px solid rgba(64,224,208,0.6);
+      box-shadow: 0 0 10px rgba(64,224,208,0.3);
+      transition: transform 0.2s;
+    }
+    .small-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(64,224,208,0.6);
+    }
+    .small-card:active {
+      transform: scale(0.95);
+      box-shadow: 0 0 12px rgba(64,224,208,0.6);
+    }
+    .small-card-front {
+      background-size: cover;
+      background-position: center;
+      width: 100%;
+      height: 100%;
+    }
+    
+    /* Секция "72 карт" */
+    #section72Cards {
+      overflow-y: auto;
+    }
+    #section72Cards .content {
+      padding: 10px;
+      margin-top: -5px;
+    }
+    .cards-grid-72 {
+      display: grid;
+      grid-template-columns: repeat(6, 60px);
+      grid-auto-rows: 84px;
+      gap: 10px;
+      justify-content: center;
+      align-items: start;
+      max-width: calc(60px * 6 + 10px * 5);
+      margin: 0 auto;
+    }
+    #section72Cards .card-container {
+      width: 60px;
+      height: 84px;
+      perspective: 1000px;
+      position: relative;
+    }
+    
+    /* Глобальный оверлей для великої карти */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+    @keyframes zoomIn {
+      0% { opacity: 0; transform: translateY(20px) scale(0.8); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .overlay-card-container {
+      position: relative;
+      width: 320px;
+      height: 448px;
+      perspective: 2000px;
+      transform: translateY(20px) scale(0.8);
+      animation: zoomIn 3s forwards ease;
+    }
+    .big-card {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      border-radius: 12px;
+      transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
+    }
+    .big-card::after {
+      content: "";
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      right: -1px;
+      bottom: -1px;
+      border-radius: 12px;
+      pointer-events: none;
+      z-index: 2;
+      border: 2px solid rgba(64,224,208,0.5);
+      box-shadow: 0 0 10px rgba(64,224,208,0.6), 0 0 20px rgba(64,224,208,0.4), 0 0 30px rgba(64,224,208,0.2);
+      animation: borderGlow 3s infinite alternate;
+    }
+    @keyframes borderGlow {
+      0% {
+        box-shadow: 0 0 10px rgba(64,224,208,0.6),
+                    0 0 20px rgba(64,224,208,0.4),
+                    0 0 30px rgba(64,224,208,0.2);
+      }
+      100% {
+        box-shadow: 0 0 20px rgba(64,224,208,0.8),
+                    0 0 40px rgba(64,224,208,0.6),
+                    0 0 60px rgba(64,224,208,0.4);
+      }
+    }
+    .big-card.is-flipped {
+      transform: rotateY(180deg);
+    }
+    .big-card-face {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      backface-visibility: hidden;
+    }
+    .big-card-front {
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    .big-card-front .logo {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      font-size: 1.2rem;
+      font-family: 'Great Vibes', cursive;
+    }
+    .icon-flip {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      cursor: pointer;
+      filter: brightness(0) invert(1);
+      transition: transform 0.2s ease;
+    }
+    .icon-flip:active {
+      transform: scale(0.9);
+    }
+    .big-card-back {
+      background: #1b1b2d;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center; 
+      align-items: center;
+      padding: 15px;
+      text-align: center;
+      transform: rotateY(180deg);
+      box-sizing: border-box;
+    }
+    .daily-wish {
+      font-size: 1.4rem;
+      font-weight: bold;
+      text-shadow: none;
+      min-height: 60px;
+      width: 90%;
+      margin: 0;
+      text-align: center;
+    }
+    .consult-button {
+      font-family: 'Great Vibes', cursive;
+      font-style: normal;
+      min-width: 180px;
+      padding: 10px 20px;
+      font-size: 1.4rem;
+      background: rgba(64,224,208,0.2);
+      border: 1px solid rgba(64,224,208,0.5);
+      border-radius: 6px;
+      cursor: pointer;
+      color: #fff;
+      text-align: center;
+      box-shadow: 0 0 4px rgba(64,224,208,0.5);
+      position: relative;
+      overflow: hidden;
+      margin-top: 20px;
+      text-decoration: none;
+    }
+    .consult-button:hover {
+      background: rgba(64,224,208,0.4);
+      box-shadow: 0 0 6px rgba(64,224,208,0.6);
+    }
+    
+    .fireflies {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .firefly {
+      position: absolute;
+      background: radial-gradient(circle, rgba(255,255,255,1) 15%, rgba(255,255,255,0) 70%);
+      border-radius: 50%;
+      opacity: 0;
+      animation: twinkle 5s infinite;
+    }
+    @keyframes twinkle {
+      0% { opacity: 0; transform: scale(0.8); }
+      25% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 16px #fff); }
+      50% { opacity: 0; transform: scale(0.8); }
+      75% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 16px #fff); }
+      100% { opacity: 0; transform: scale(0.8); }
+    }
+    
+    /* Футер */
+    #mainFooter {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-family: Georgia, serif;
+      font-style: italic;
+      font-size: 0.8rem;
+      line-height: 1.3;
+    }
+    #mainFooter .second-line {
+      display: block;
+      margin-top: 3px;
+      white-space: nowrap;
+    }
+    
+    /* Модальное окно Нотатки */
+    .overlay-notes-container {
+      position: relative;
+      width: 400px;
+      height: 600px;
+      perspective: 2000px;
+      transform: translateY(20px) scale(0.8);
+      animation: zoomIn 3s forwards ease;
+    }
+    .notes-card {
+      width: 100%;
+      height: 100%;
+      background: #1e1e2f;
+      border-radius: 12px;
+      position: relative;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(64,224,208,0.6), 0 0 20px rgba(64,224,208,0.4);
+    }
+    /* Кнопка закрытия (крестик) как стиль back-btn */
+    .notes-close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+    .notes-card h2 {
+      font-family: 'Great Vibes', cursive;
+      margin-bottom: 20px;
+    }
+    .notes-card textarea {
+      width: 100%;
+      height: calc(100% - 120px);
+      resize: none;
+      font-family: Georgia, serif;
+      font-size: 1.3rem;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      background: repeating-linear-gradient(
+        to bottom,
+        #fff,
+        #fff 30px,
+        #dcdcdc 30px,
+        #dcdcdc 31px
+      );
+      box-sizing: border-box;
+    }
+    /* Стили для date-picker */
+    .date-picker {
+      font-family: Georgia, serif;
+      font-size: 1.2rem;
+      background: rgba(64,224,208,0.2);
+      border: 1px solid rgba(64,224,208,0.5);
+      border-radius: 6px;
+      color: #fff;
+      padding: 10px 20px;
+      cursor: pointer;
+      text-align: center;
+      box-shadow: 0 0 4px rgba(64,224,208,0.5);
+      margin-bottom: 15px;
+      outline: none;
+    }
+    .date-picker::-webkit-inner-spin-button,
+    .date-picker::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+    }
+  </style>
+</head>
+<body>
+  <!-- Социальные иконки -->
+  <div class="social-left">
+    <a href="#" target="_blank"><img src="https://i.ibb.co/3mvz2MS8/5-1.png" alt="Tiktok"></a>
+    <a href="#" target="_blank"><img src="https://i.ibb.co/67Mpr94h/4-1.png" alt="Telegram"></a>
+    <a href="#" target="_blank"><img src="https://i.ibb.co/ZR1fnmF8/3-1.png" alt="Instagram"></a>
+  </div>
+  <div class="social-right">
+    <a href="#" target="_blank"><img src="https://i.ibb.co/GfqnLvSv/6-1.png" alt="Site Icon"></a>
+  </div>
+  
+  <!-- Preloader -->
+  <div id="preloader">
+    <div class="spinner"></div>
+  </div>
+  
+  <!-- Главное меню -->
+  <div id="mainMenu" class="menu fade-in">
+    <div class="greeting">
+      <h1 class="glowing-title">Дзеркало душі</h1>
+      <p>
+        Метафоричні асоціативні карти “Дзеркало Душі” – авторська колода з 72 карт, що відкриває глибини підсвідомості та допомагає зрозуміти власні емоції. Кожна карта втілює унікальне поєднання образів і символів, відображаючи наші переживання та підсвідомі імпульси. Відкрийте свою внутрішню силу, збалансуйте емоції та знайдіть нові можливості для розвитку.
+      </p>
+    </div>
+    <button class="btn" onclick="openDeckInfo()">Розгорнути карти</button>
+    <button class="btn" onclick="openSection('sectionDiary')">Як це працює?</button>
+    <footer id="mainFooter">
+      © 2025 Усі права захищені.
+      <span class="second-line">Авторська колода «Дзеркало душі» від Ірини Колоколової</span>
+    </footer>
+  </div>
+  
+  <!-- Секция "Як це працює?" с расширенным описанием -->
+  <div id="sectionDiary" class="section">
+    <button class="btn back-btn" onclick="backToMenu()">
+      <img src="https://i.ibb.co/s9NyJrT7/56-1.png" alt="Back">
+    </button>
+    <div class="content">
+      <div class="how-it-works-text">
+        <p>Метафоричні асоціативні карти – це потужний інструмент для самопізнання та особистісного розвитку, який використовується як в психологічних консультаціях, так і в особистих практиках. Вони створені на основі символічних зображень, що здатні викликати інтуїтивні асоціації, допомагаючи розкрити внутрішній світ та глибші аспекти особистості.</p>
+        <p><span class="highlight">Основні переваги використання карт:</span></p>
+        <ul>
+          <li><strong>Саморефлексія:</strong> Глибоке занурення в особисті переживання та емоції.</li>
+          <li><strong>Емоційне розвантаження:</strong> Вираження і аналіз почуттів, що допомагає звільнитися від емоційного напруження.</li>
+          <li><strong>Розвиток інтуїції:</strong> Підвищення чутливості до власних внутрішніх сигналів і підсвідомих імпульсів.</li>
+          <li><strong>Творчість та натхнення:</strong> Стимулювання нових ідей і перспектив через символічні образи.</li>
+          <li><strong>Поглиблення зв’язку з собою:</strong> Розуміння власних мотивів, переконань та життєвих шляхів.</li>
+        </ul>
+        <p><span class="highlight">Як це працює:</span></p>
+        <ol>
+          <li><strong class="highlight">Інтуїтивний вибір:</strong><br>
+            Довірте своїм внутрішнім відчуттям і оберіть карту, яка миттєво привертає вашу увагу. Ваш вибір може бути обумовлений як кольорами, так і символами, що відгукуються у вашій душі.
+          </li>
+          <li><strong class="highlight">Детальний аналіз:</strong><br>
+            Ретельно розгляньте кожну деталь зображення:
+            <ul>
+              <li><em>Символи:</em> Відображають глибинні аспекти вашої особистості та життєвих ситуацій;</li>
+              <li><em>Кольори:</em> Передають емоційне забарвлення і можуть впливати на ваше поточне самопочуття;</li>
+              <li><em>Композиція:</em> Підказує про взаємозв’язки між різними аспектами вашого життя.</li>
+            </ul>
+          </li>
+          <li><strong class="highlight">Саморефлексія:</strong><br>
+            Поставте собі запитання:
+            <ul>
+              <li>Що символізує ця карта для мене?</li>
+              <li>Які емоції вона викликає?</li>
+              <li>Як її образи співвідносяться з моїми особистими переживаннями?</li>
+            </ul>
+          </li>
+          <li><strong class="highlight">Поглиблений аналіз:</strong><br>
+            Вивчіть власні реакції та асоціації. Ведіть щоденник, у якому фіксуються ваші думки та емоції після роботи з картами – це допоможе виявити повторювані теми та сигнали вашої підсвідомості.
+          </li>
+          <li><strong class="highlight">Консультація:</strong><br>
+            За потреби зверніться до психолога або коуча, який спеціалізується на роботі з асоціативними картами. Професійна підтримка допоможе глибше зрозуміти зміст образів і використати їх для особистісного зростання.
+          </li>
+        </ol>
+        <p>Таким чином, метафоричні асоціативні карти стають містком між свідомістю та підсвідомістю, відкриваючи нові шляхи для самопізнання та внутрішнього розвитку. Вони сприяють не лише розумінню себе, але й стимулюють творчий процес, допомагаючи знайти відповіді на важливі життєві питання.</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Секция "Розгорнути колоду" -->
+  <div id="sectionDeckInfo" class="section">
+    <div class="nav-buttons">
+      <button class="btn back-btn" onclick="backToMenu()">
+        <img src="https://i.ibb.co/s9NyJrT7/56-1.png" alt="Back">
+      </button>
+      <button class="btn continue-btn" onclick="continueToDeck()">
+        <img src="https://i.ibb.co/s9NyJrT7/56-1.png" alt="Continue">
+      </button>
+    </div>
+    <div class="content">
+      <ol>
+        <li><strong class="highlight">Сформулюй питання:</strong><br>Зосередься на темі, яка хвилює. Подумай, що саме ти хочеш зрозуміти чи змінити.</li>
+        <li><strong class="highlight">Обери карту:</strong><br>Вибери з колоди ту, що привертає увагу чи викликає особливий відгук у душі.</li>
+        <li><strong class="highlight">Розглянь зображення:</strong><br>Уважно вдивляйся у деталі, кольори та символи, які можуть приховувати важливі підказки.</li>
+        <li><strong class="highlight">Прислухайся:</strong><br>Зверни увагу на почуття та думки, що виникають у процесі споглядання, аналізуй власні реакції.</li>
+        <li><strong class="highlight">Зроби висновки:</strong><br>Подумай, як ця карта може допомогти тобі побачити ситуацію під іншим кутом і знайти відповіді.</li>
+      </ol>
+    </div>
+  </div>
+  
+  <!-- Секция "Мак‑карти" -->
+  <div id="sectionMakKarti" class="section">
+    <div class="nav-buttons">
+      <button class="btn back-btn" onclick="backToDeckInfo()">
+        <img src="https://i.ibb.co/s9NyJrT7/56-1.png" alt="Back">
+      </button>
+      <span class="center-text">Сконцентруйся та обери карту:</span>
+      <button class="btn sound-btn" id="soundBtn">
+        <img src="https://i.ibb.co/F4C2qWZB/7-1.png" alt="Sound">
+      </button>
+    </div>
+    <div class="content" style="margin-top: -5px;">
+      <div class="cards-grid"></div>
+      <div class="deck-icons">
+        <button id="shuffleIconBtn" class="icon-btn" onclick="shuffleCards()">
+          <img src="https://i.ibb.co/Mx5F8K9y/59-1.png" alt="Shuffle">
+        </button>
+        <button class="icon-btn" onclick="open72Cards()">
+          <img src="https://i.ibb.co/Wp4TtY55/60-1.png" alt="Карты">
+        </button>
+        <button class="icon-btn" onclick="openNotes()">
+          <img src="https://i.ibb.co/zWHbHZVz/2-1.png" alt="Нотатки">
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Секция "72 карт" -->
+  <div id="section72Cards" class="section">
+    <div class="nav-buttons">
+      <button class="btn back-btn" onclick="backToMakKartiFrom72()">
+        <img src="https://i.ibb.co/s9NyJrT7/56-1.png" alt="Back">
+      </button>
+    </div>
+    <div class="content" style="margin-top: -5px;">
+      <div class="cards-grid-72"></div>
+    </div>
+  </div>
+  
+  <!-- Глобальный оверлей для карточки -->
+  <div class="overlay" id="overlay">
+    <div class="overlay-card-container">
+      <div class="big-card" id="bigCard">
+        <div class="big-card-face big-card-front" id="bigCardFront">
+          <div class="logo">by Iryna Kolokolova</div>
+          <img src="https://i.ibb.co/s9NyJrT7/56-1.png" alt="Flip" class="icon-flip" onclick="flipCard(event)">
+        </div>
+        <div class="big-card-face big-card-back" id="bigCardBack">
+          <p class="daily-wish"></p>
+          <a class="consult-button" href="https://t.me/" target="_blank" onclick="event.stopPropagation();">Отримати консультацію</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Глобальный оверлей для нотаток -->
+  <div class="overlay" id="notesOverlay">
+    <div class="overlay-notes-container">
+      <div class="notes-card" id="notesCard">
+        <button class="btn back-btn notes-close-btn" onclick="closeNotesModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 16 16">
+            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 
+            .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 
+            0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+          </svg>
+        </button>
+        <h2>Нотатки:</h2>
+        <!-- Поле выбора даты с placeholder и украинским языком -->
+        <input type="date" class="date-picker" id="notesDate" lang="uk" placeholder="Дата">
+        <textarea id="notesTextArea" placeholder="Запишіть тут свої нотатки..."></textarea>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Огни (fireflies) -->
+  <div class="fireflies"></div>
+  
+  <!-- Аудіо для медитативной музики (placeholder) -->
+  <audio id="meditativeAudio" loop src="meditative.mp3"></audio>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      hidePreloader();
+      // Обработчик изменения даты для загрузки заметок по выбранной дате
+      document.getElementById('notesDate').addEventListener('change', function() {
+        let selectedDate = this.value;
+        let savedNotes = localStorage.getItem('userNotes_' + selectedDate);
+        document.getElementById('notesTextArea').value = savedNotes || "";
+      });
+    });
+    
+    function hidePreloader() {
+      const preloader = document.getElementById('preloader');
+      preloader.style.opacity = '0';
+      setTimeout(() => {
+        preloader.style.display = 'none';
+        document.getElementById('mainMenu').classList.add('show');
+        showMainIcons();
+        createFireflies(25);
+      }, 500);
+    }
+    
+    function createFireflies(count) {
+      const container = document.querySelector(".fireflies");
+      for (let i = 0; i < count; i++) {
+        const firefly = document.createElement("div");
+        firefly.className = "firefly";
+        const size = 2 + Math.random() * 4;
+        firefly.style.width = size + "px";
+        firefly.style.height = size + "px";
+        firefly.style.top = Math.random() * 100 + "%";
+        firefly.style.left = Math.random() * 100 + "%";
+        firefly.style.animationDelay = Math.random() * 3 + "s";
+        firefly.style.animationDuration = (3 + Math.random() * 5) + "s";
+        container.appendChild(firefly);
+      }
+    }
+    
+    let animationInProgress = false;
+    
+    const dailyWishes = [
+      "Нехай цей день принесе тобі світло, тепло та нові можливості для здійснення мрій.",
+      "Бажаю, щоб кожна мить сьогодні була наповнена радістю, любов’ю та гармонією в душі.",
+      "Нехай твій день буде сповнений незабутніх вражень, позитиву та натхнення для нових звершень.",
+      "Бажаю успіху у всіх починаннях, теплих зустрічей та світлих думок протягом всього дня.",
+      "Нехай твоє серце наповниться радістю, а кожен крок наближає тебе до великих досягнень.",
+      "Бажаю, щоб сьогоднішній день відкрив перед тобою безмежні горизонти та можливості.",
+      "Нехай кожна хвилина цього дня дарує тобі віру, сили та впевненість у власних силах.",
+      "Бажаю, щоб у кожній миті ти знаходив натхнення, тепло та підтримку близьких.",
+      "Нехай сьогоднішній день стане для тебе джерелом нових ідей, відкриттів та радості.",
+      "Бажаю, щоб кожна зустріч і кожне слово надихали тебе на великі звершення.",
+      "Нехай твій день буде наповнений світлими моментами, любов’ю та гармонією всередині себе.",
+      "Бажаю, щоб кожна мрія набувала форми, а кожна думка перетворювалася на реальність.",
+      "Нехай кожен промінчик сонця приносить тобі тепло, енергію та натхнення для нових починань.",
+      "Бажаю, щоб сьогоднішній день був сповнений добрих емоцій, креативності та внутрішньої сили.",
+      "Нехай кожна мить цього дня відкриває перед тобою нові можливості та приносить щастя.",
+      "Бажаю, щоб кожен крок на твоєму шляху був освітлений світлом надії та впевненості.",
+      "Нехай сьогоднішній день принесе тобі безліч приємних сюрпризів і незабутніх моментів.",
+      "Бажаю, щоб кожна зустріч надихала тебе, а кожне слово дарувало тепло і підтримку.",
+      "Нехай твій день буде сповнений творчості, радості та сміливих рішень.",
+      "Бажаю, щоб сьогоднішній день став початком нових перемог і великих звершень.",
+      "Нехай твоє серце наповниться оптимізмом, а думки ведуть до нових ідей та рішень.",
+      "Бажаю, щоб кожна хвилина цього дня була сповнена гармонією, любов’ю та внутрішнім спокоєм.",
+      "Нехай кожен промінчик світла надихає тебе на великі справи і відкриття.",
+      "Бажаю, щоб сьогоднішній день приніс тобі радість, нові ідеї та життєву енергію.",
+      "Нехай твій день буде наповнений яскравими фарбами, теплими зустрічами та позитивом.",
+      "Бажаю, щоб кожна мить дарувала тобі натхнення, сили та віру в краще майбутнє.",
+      "Нехай сьогоднішній день стане для тебе джерелом радості, творчості та нових можливостей.",
+      "Бажаю, щоб кожен момент цього дня приносив тобі посмішку, тепло та гармонію.",
+      "Нехай твій день буде сповнений любов’ю, підтримкою та безмежним натхненням.",
+      "Бажаю, щоб цей день відкрив перед тобою нові горизонти, даруючи тепло і радість.",
+      "Нехай у твоєму серці панує радість, а в душі — мир і впевненість у завтрашньому дні."
+    ];
+    
+    const bigImages = [
+      "https://i.ibb.co/Xb8XWSF/IMG-8479.webp",
+      "https://i.ibb.co/4fq2yGt/IMG-8478.webp",
+      "https://i.ibb.co/X7DWNKJ/IMG-8477.webp",
+      "https://i.ibb.co/GvFD8Bs/IMG-8468.webp",
+      "https://i.ibb.co/4tChY0G/IMG-8467.webp",
+      "https://i.ibb.co/JyCLnpT/IMG-8466.webp"
+    ];
+    
+    function createSmallCards(count) {
+      disableInteractions();
+      const grid = document.querySelector(".cards-grid");
+      grid.innerHTML = "";
+      for (let i = 0; i < count; i++) {
+        const container = document.createElement("div");
+        container.classList.add("card-container");
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 50 + Math.random() * 50;
+        container.style.transform = `scale(0.9) translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
+    
+        const smallCard = document.createElement("div");
+        smallCard.classList.add("small-card");
+    
+        const front = document.createElement("div");
+        front.classList.add("small-card-front");
+        front.style.backgroundImage = 'url("https://i.ibb.co/wcWxxGp/IMG-8462.webp")';
+    
+        smallCard.appendChild(front);
+        container.appendChild(smallCard);
+        grid.appendChild(container);
+    
+        setTimeout(() => {
+          container.classList.add("fade-in");
+          container.style.transform = "";
+        }, 50);
+    
+        smallCard.addEventListener("click", function(e) {
+          if (animationInProgress) return;
+          openOverlay();
+        });
+      }
+      setTimeout(enableInteractions, 6000);
+    }
+    
+    function openOverlay(imgUrl) {
+      if (animationInProgress) return;
+      animationInProgress = true;
+      const overlay = document.getElementById("overlay");
+      overlay.classList.add("active");
+      const shuffleIcon = document.getElementById("shuffleIconBtn");
+      if (shuffleIcon) shuffleIcon.style.pointerEvents = "none";
+      
+      let chosenImg;
+      if (imgUrl && imgUrl !== "" && imgUrl !== "none") {
+         chosenImg = imgUrl.replace(/^url\(["']?/, "").replace(/["']?\)$/, "");
+      } else {
+         const randomIndex = Math.floor(Math.random() * bigImages.length);
+         chosenImg = bigImages[randomIndex];
+      }
+      
+      const bigCardFront = document.getElementById("bigCardFront");
+      bigCardFront.style.backgroundImage = 'url("' + chosenImg + '")';
+      
+      const randomWishIndex = Math.floor(Math.random() * dailyWishes.length);
+      const wish = dailyWishes[randomWishIndex];
+      
+      const bigCardBack = document.getElementById("bigCardBack");
+      bigCardBack.querySelector(".daily-wish").textContent = wish;
+      
+      const bigCard = document.getElementById("bigCard");
+      bigCard.classList.remove("is-flipped");
+      
+      setTimeout(() => {
+         animationInProgress = false;
+         if (shuffleIcon) shuffleIcon.style.pointerEvents = "auto";
+      }, 3000);
+    }
+    
+    document.getElementById("bigCard").addEventListener("click", function(e) {
+      if (animationInProgress) return;
+      this.classList.toggle("is-flipped");
+    });
+    
+    document.getElementById("overlay").addEventListener("click", function(e) {
+      if (animationInProgress) return;
+      if(e.target.id === "overlay") {
+        this.classList.remove("active");
+        const shuffleIcon = document.getElementById("shuffleIconBtn");
+        if (shuffleIcon) shuffleIcon.style.pointerEvents = "auto";
+      }
+    });
+    
+    document.getElementById("shuffleIconBtn").addEventListener("click", function() {
+      if (animationInProgress) return;
+      shuffleCards();
+    });
+    
+    function shuffleCards() {
+      disableInteractions();
+      const grid = document.querySelector(".cards-grid");
+      const cards = grid.querySelectorAll(".card-container");
+      cards.forEach(card => {
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 50 + Math.random() * 50;
+        card.style.transform = `scale(0.9) translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
+        card.style.opacity = "0";
+      });
+      setTimeout(() => {
+        createSmallCards(20);
+      }, 6000);
+    }
+    
+    function flipCard(event) {
+      event.stopPropagation();
+      if (animationInProgress) return;
+      document.getElementById("bigCard").classList.toggle("is-flipped");
+    }
+    
+    function disableInteractions() {
+      animationInProgress = true;
+      const grid20 = document.querySelector(".cards-grid");
+      if (grid20) grid20.style.pointerEvents = "none";
+      const grid72 = document.querySelector(".cards-grid-72");
+      if (grid72) grid72.style.pointerEvents = "none";
+      const shuffleIcon = document.getElementById("shuffleIconBtn");
+      if (shuffleIcon) shuffleIcon.style.pointerEvents = "none";
+    }
+    function enableInteractions() {
+      animationInProgress = false;
+      const grid20 = document.querySelector(".cards-grid");
+      if (grid20) grid20.style.pointerEvents = "auto";
+      const grid72 = document.querySelector(".cards-grid-72");
+      if (grid72) grid72.style.pointerEvents = "auto";
+      const shuffleIcon = document.getElementById("shuffleIconBtn");
+      if (shuffleIcon) shuffleIcon.style.pointerEvents = "auto";
+    }
+    
+    function showMainIcons() {
+      document.querySelector('.social-left').style.display = 'flex';
+      document.querySelector('.social-right').style.display = 'flex';
+    }
+    function hideMainIcons() {
+      document.querySelector('.social-left').style.display = 'none';
+      document.querySelector('.social-right').style.display = 'none';
+    }
+    
+    function openSection(sectionId) {
+      document.getElementById('mainMenu').style.display = 'none';
+      document.getElementById('mainFooter').style.display = 'none';
+      hideMainIcons();
+      document.querySelectorAll('.section').forEach(sec => {
+        sec.classList.remove('active');
+      });
+      document.getElementById(sectionId).classList.add('active');
+    }
+    function backToMenu() {
+      document.querySelectorAll('.section').forEach(sec => {
+        sec.classList.remove('active');
+      });
+      document.getElementById('mainMenu').style.display = 'flex';
+      document.getElementById('mainFooter').style.display = 'block';
+      showMainIcons();
+    }
+    function openDeckInfo() {
+      document.getElementById('mainMenu').style.display = 'none';
+      document.getElementById('mainFooter').style.display = 'none';
+      hideMainIcons();
+      document.querySelectorAll('.section').forEach(sec => {
+        sec.classList.remove('active');
+      });
+      document.getElementById('sectionDeckInfo').classList.add('active');
+    }
+    function continueToDeck() {
+      document.getElementById('sectionDeckInfo').classList.remove('active');
+      document.getElementById('sectionMakKarti').classList.add('active');
+      createSmallCards(20);
+    }
+    function backToDeckInfo() {
+      document.getElementById('sectionMakKarti').classList.remove('active');
+      document.getElementById('sectionDeckInfo').classList.add('active');
+    }
+    
+    function open72Cards() {
+      document.getElementById('sectionMakKarti').classList.remove('active');
+      document.getElementById('section72Cards').classList.add('active');
+      create72Cards();
+    }
+    function backToMakKartiFrom72() {
+      document.getElementById('section72Cards').classList.remove('active');
+      document.getElementById('sectionMakKarti').classList.add('active');
+    }
+    function create72Cards() {
+      disableInteractions();
+      const grid = document.querySelector(".cards-grid-72");
+      grid.innerHTML = "";
+      for (let i = 0; i < 72; i++) {
+        const container = document.createElement("div");
+        container.classList.add("card-container");
+        container.style.opacity = "0";
+        
+        const smallCard = document.createElement("div");
+        smallCard.classList.add("small-card");
+        
+        const front = document.createElement("div");
+        front.classList.add("small-card-front");
+        if (i < 6) {
+          front.style.backgroundImage = 'url("' + bigImages[i] + '")';
+        } else {
+          front.style.background = "rgba(64,224,208,0.2)";
+        }
+        
+        smallCard.appendChild(front);
+        container.appendChild(smallCard);
+        grid.appendChild(container);
+        
+        setTimeout(() => {
+          container.classList.add("fade-in");
+          container.style.opacity = "1";
+        }, 50);
+        
+        smallCard.addEventListener("click", function(e) {
+          if (animationInProgress) return;
+          let bg = front.style.backgroundImage;
+          openOverlay(bg);
+        });
+      }
+      setTimeout(enableInteractions, 2000);
+    }
+    
+    const soundBtn = document.getElementById('soundBtn');
+    const meditativeAudio = document.getElementById('meditativeAudio');
+    let isPlaying = false;
+    soundBtn.addEventListener('click', function(e) {
+      if (!isPlaying) {
+        meditativeAudio.play();
+        soundBtn.classList.remove('muted');
+        isPlaying = true;
+      } else {
+        meditativeAudio.pause();
+        soundBtn.classList.add('muted');
+        isPlaying = false;
+      }
+    });
+    
+    /* Функции для модального окна нотаток */
+    function openNotes() {
+      const dateInput = document.getElementById('notesDate');
+      if (!dateInput.value) {
+        let today = new Date();
+        let yyyy = today.getFullYear();
+        let mm = String(today.getMonth() + 1).padStart(2, '0');
+        let dd = String(today.getDate()).padStart(2, '0');
+        dateInput.value = yyyy + '-' + mm + '-' + dd;
+      }
+      let selectedDate = dateInput.value;
+      let savedNotes = localStorage.getItem('userNotes_' + selectedDate);
+      document.getElementById('notesTextArea').value = savedNotes || "";
+      document.getElementById('notesOverlay').classList.add('active');
+    }
+    
+    function closeNotesModal() {
+      let notes = document.getElementById('notesTextArea').value;
+      let notesDate = document.getElementById('notesDate').value;
+      if (!notesDate) {
+        let today = new Date();
+        let yyyy = today.getFullYear();
+        let mm = String(today.getMonth() + 1).padStart(2, '0');
+        let dd = String(today.getDate()).padStart(2, '0');
+        notesDate = yyyy + '-' + mm + '-' + dd;
+      }
+      localStorage.setItem('userNotes_' + notesDate, notes);
+      document.getElementById('notesOverlay').classList.remove('active');
+    }
+    
+    document.getElementById('notesOverlay').addEventListener("click", function(e) {
+      if(e.target.id === "notesOverlay") {
+        closeNotesModal();
+      }
+    });
+  </script>
+</body>
+</html>
