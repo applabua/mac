@@ -439,11 +439,12 @@
     }
     .cards-grid-72 {
       display: grid;
-      grid-template-columns: repeat(6, 60px);
+      grid-template-columns: repeat(5, 60px) !important;
       grid-auto-rows: 84px;
       gap: 10px;
       justify-content: center;
       align-items: start;
+      max-width: calc(60px * 5 + 10px * 4) !important;
       margin: 0 auto;
     }
     #section72Cards .card-container {
