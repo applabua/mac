@@ -699,6 +699,15 @@
   </style>
 </head>
 <body>
+  <!-- Социальные иконки -->
+  <div class="social-left">
+    <a href="#" target="_blank"><img src="https://i.ibb.co/3mvz2MS8/5-1.png" alt="Tiktok"></a>
+    <a href="#" target="_blank"><img src="https://i.ibb.co/67Mpr94h/4-1.png" alt="Telegram"></a>
+    <a href="#" target="_blank"><img src="https://i.ibb.co/ZR1fnmF8/3-1.png" alt="Instagram"></a>
+  </div>
+  <div class="social-right">
+    <a href="#" target="_blank"><img src="https://i.ibb.co/GfqnLvSv/6-1.png" alt="Site Icon"></a>
+  </div>
   
   <!-- Preloader -->
   <div id="preloader">
@@ -1142,9 +1151,14 @@
       if (shuffleIcon) shuffleIcon.style.pointerEvents = "auto";
     }
     
-    function showMainIcons() {}
-    function hideMainIcons() {}
-
+    function showMainIcons() {
+      document.querySelector('.social-left').style.display = 'flex';
+      document.querySelector('.social-right').style.display = 'flex';
+    }
+    function hideMainIcons() {
+      document.querySelector('.social-left').style.display = 'none';
+      document.querySelector('.social-right').style.display = 'none';
+    }
     
     function openSection(sectionId) {
       document.getElementById('mainMenu').style.display = 'none';
