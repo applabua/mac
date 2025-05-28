@@ -440,7 +440,6 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  backface-visibility: hidden;  /* Добавляем это для предотвращения зеркального отражения */
 }
     
     /* Секция "72 карт" */
@@ -1089,7 +1088,7 @@
       || animationInProgress) return;
 
   // Показываем лицевую сторону карты
-  smallCard.style.backgroundImage = url("${smallCard.dataset.front}");
+  smallCard.style.backgroundImage = `url("${smallCard.dataset.front}")`;
   smallCard.classList.add("flipped"); // Переворачиваем карту
   selectedCount++;
 
