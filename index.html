@@ -451,15 +451,15 @@
       margin-top: -5px;
     }
     .cards-grid-72 {
-      display: grid;
-      grid-template-columns: repeat(5, 60px) !important;
-      grid-auto-rows: 84px;
-      gap: 10px;
-      justify-content: center;
-      align-items: start;
-      max-width: calc(60px * 5 + 10px * 4) !important;
-      margin: 0 auto;
-    }
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* Используем 5 колонок для карт */
+  grid-auto-rows: 90px; /* Увеличиваем высоту строк, чтобы карты не налезали */
+  gap: 15px; /* Увеличиваем промежутки между картами */
+  justify-content: center;
+  align-items: start;
+  max-width: 100%; /* Убираем максимальную ширину */
+  margin: 0 auto;
+}
     #section72Cards .card-container {
       width: 60px;
       height: 84px;
@@ -1083,9 +1083,13 @@
 
     // клик: переворот, оверлей и ограничение трёх выборов
     smallCard.addEventListener("click", function() {
-  if (smallCard.classList.contains("flipped")
-      || selectedCount >= 3
-      || animationInProgress) return;
+  if (smallCard.classList.contains("flipped")) {
+    smallCard.classList.remove("flipped");
+    selectedCount--; // Уменьшаем количество выбранных карт
+    smallCard.style.opacity = "1"; // Карта снова будет видимой
+    smallCard.style.pointerEvents = "auto"; // Восстанавливаем возможность клика
+  } else {
+    if (selectedCount >= 3 || animationInProgress) return;
 
   // Показываем лицевую сторону карты
   smallCard.style.backgroundImage = `url("${smallCard.dataset.front}")`;
