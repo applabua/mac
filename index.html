@@ -749,7 +749,7 @@
     <div class="greeting">
       <h1 class="glowing-title">Дзеркало душі</h1>
       <p>
-        Метафоричні асоціативні карти “Дзеркало Душі” – авторська колода з 75 карт, що відкриває глибини підсвідомості та допомагає зрозуміти власні емоції. Кожна карта втілює унікальне поєднання образів і символів, відображаючи наші переживання та підсвідомі імпульси. Відкрийте свою внутрішню силу, збалансуйте емоції та знайдіть нові можливості для розвитку.
+        Метафоричні асоціативні карти “Дзеркало Душі” – авторська колода з 76 карт, що відкриває глибини підсвідомості та допомагає зрозуміти власні емоції. Кожна карта втілює унікальне поєднання образів і символів, відображаючи наші переживання та підсвідомі імпульси. Відкрийте свою внутрішню силу, збалансуйте емоції та знайдіть нові можливості для розвитку.
       </p>
     </div>
     <button class="btn" onclick="openDeckInfo()">Розгорнути карти</button>
@@ -993,7 +993,7 @@
       "https://i.ibb.co/ksxT3vR2/photo-2025-05-26-17-55-35-2.jpg.webp",
       "https://i.ibb.co/6JVD9jgJ/photo-2025-05-26-17-55-35.jpg.webp",
       "https://i.ibb.co/4Rv7DBsR/photo-2025-05-26-17-55-36-2.jpg.webp",
-      "https://i.ibb.co/FbkVvbDq/photo-2025-05-26-17-55-36-3.jpg.webp",
+      "https://i.ibb.co/svP2KcgG/photo-2025-05-28-23-30-39.jpg.webp",
       "https://i.ibb.co/BKt25h6Q/photo-2025-05-26-17-55-36.jpg.webp",
       "https://i.ibb.co/21H3TC2K/photo-2025-05-26-17-55-37-2.jpg.webp",
       "https://i.ibb.co/Kx4Jq4Pq/photo-2025-05-26-17-55-37.jpg.webp",
@@ -1054,7 +1054,8 @@
       "https://i.ibb.co/wrFTdFsQ/photo-2025-05-27-00-36-27.jpg.webp",
       "https://i.ibb.co/s9VCNHWn/photo-2025-05-27-23-54-13.jpg.webp",
       "https://i.ibb.co/93ffP582/photo-2025-05-27-23-54-12.jpg.webp",
-      "https://i.ibb.co/TBzZjQ0w/photo-2025-05-27-23-54-13-2.jpg.webp"
+      "https://i.ibb.co/TBzZjQ0w/photo-2025-05-27-23-54-13-2.jpg.webp",
+      "https://i.ibb.co/BK5sxgw8/photo-2025-05-28-23-30-40.jpg.webp"
     ];
     
     function createSmallCards(count) {
@@ -1271,7 +1272,7 @@
       disableInteractions();
       const grid = document.querySelector(".cards-grid-72");
       grid.innerHTML = "";
-      for (let i = 0; i < 75; i++) {
+      for (let i = 0; i < 76; i++) {
         const container = document.createElement("div");
         container.classList.add("card-container");
         container.style.opacity = "0";
@@ -1281,7 +1282,7 @@
         
         const front = document.createElement("div");
         front.classList.add("small-card-front");
-        if (i < 75) {
+        if (i < 76) {
           front.style.backgroundImage = 'url("' + bigImages[i] + '")';
         } else {
           front.style.background = "rgba(64,224,208,0.2)";
