@@ -1089,7 +1089,7 @@
       || animationInProgress) return;
 
   // Показываем лицевую сторону карты
-  smallCard.style.backgroundImage = `url("${smallCard.dataset.front}")`;
+  smallCard.style.backgroundImage = url("${smallCard.dataset.front}");
   smallCard.classList.add("flipped"); // Переворачиваем карту
   selectedCount++;
 
