@@ -403,9 +403,6 @@
       box-shadow: 0 0 10px rgba(64,224,208,0.3);
       transition: transform 0.2s;
     }
-    .small-card.flipped {
-      transform: rotateY(180deg);
-    }
     .small-card:hover {
       transform: scale(1.05);
       box-shadow: 0 0 12px rgba(64,224,208,0.6);
@@ -896,7 +893,6 @@
     });
 
     let selectedCount = 0;
-    
     function hidePreloader() {
       const preloader = document.getElementById('preloader');
       preloader.style.opacity = '0';
@@ -1067,9 +1063,29 @@
         }, 50);
     
         smallCard.addEventListener("click", function(e) {
-          if (animationInProgress) return;
-          openOverlay();
-        });
+  // Блокируем, если уже перевёрнута, или выбранные 3, или идёт анимация
+  if (smallCard.classList.contains("flipped") 
+      || selectedCount >= 3 
+      || animationInProgress) return;
+
+  // Фиксируем выбор
+  selectedCount++;
+  smallCard.classList.add("flipped");
+
+  // Открываем оверлей именно с этой картой
+  const bg = smallCard.style.backgroundImage.replace(/^url\(["']?/, '').replace(/["']?\)$/, '');
+  openOverlay(bg);
+
+  // Если выбрали три — затушёвываем и блокируем остальные
+  if (selectedCount === 3) {
+    document.querySelectorAll(".cards-grid .small-card").forEach(card => {
+      if (!card.classList.contains("flipped")) {
+        card.style.pointerEvents = "none";
+        card.style.opacity = "0.5";
+      }
+    });
+  }
+});
       }
       setTimeout(enableInteractions, 6000);
     }
@@ -1251,23 +1267,10 @@
         }, 50);
         
         smallCard.addEventListener("click", function(e) {
-  // не больше 3 выборов и без оверлея
-  if (smallCard.classList.contains("flipped") || selectedCount >= 3) return;
-
-  // переворачиваем карту на месте
-  smallCard.classList.add("flipped");
-  selectedCount++;
-
-  // после 3-х сделаем остальные полупрозрачными и некликабельными
-  if (selectedCount === 3) {
-    document.querySelectorAll(".cards-grid .small-card").forEach(card => {
-      if (!card.classList.contains("flipped")) {
-        card.style.pointerEvents = "none";
-        card.style.opacity = "0.5";
-      }
-    });
-  }
-});
+          if (animationInProgress) return;
+          let bg = front.style.backgroundImage;
+          openOverlay(bg);
+        });
       }
       setTimeout(enableInteractions, 2000);
     }
