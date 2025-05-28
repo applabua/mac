@@ -417,6 +417,14 @@
       width: 100%;
       height: 100%;
     }
+    .small-card {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: transform 0.6s ease;
+}
+.small-card.flipped {
+  transform: rotateY(180deg);
+}
     
     /* Секция "72 карт" */
     #section72Cards {
@@ -1049,9 +1057,13 @@
         const smallCard = document.createElement("div");
         smallCard.classList.add("small-card");
     
-        const front = document.createElement("div");
-        front.classList.add("small-card-front");
-        front.style.backgroundImage = 'url("https://i.ibb.co/wcWxxGp/IMG-8462.webp")';
+        const smallCard = document.createElement("div");
+smallCard.classList.add("small-card");
+// сохраняем лицевую сторону:
+const cardFront = bigImages[i];
+smallCard.dataset.front = cardFront;
+// ставим рубашку:
+smallCard.style.backgroundImage = 'url("https://i.ibb.co/wcWxxGp/IMG-8462.webp")';
     
         smallCard.appendChild(front);
         container.appendChild(smallCard);
@@ -1068,6 +1080,20 @@
       || selectedCount >= 3 
       || animationInProgress) return;
 
+          // вот этот блок вставьте
+  smallCard.style.backgroundImage = `url("${smallCard.dataset.front}")`;
+  smallCard.classList.add("flipped");
+  selectedCount++;
+  openOverlay(smallCard.dataset.front);
+  if (selectedCount === 3) {
+    document.querySelectorAll(".cards-grid .small-card").forEach(card => {
+      if (!card.classList.contains("flipped")) {
+        card.style.pointerEvents = "none";
+        card.style.opacity = "0.5";
+      }
+    });
+  }
+});
   // Фиксируем выбор
   selectedCount++;
   smallCard.classList.add("flipped");
