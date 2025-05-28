@@ -1071,25 +1071,15 @@
 
     // клик: переворот, оверлей и ограничение трёх выборов
     smallCard.addEventListener("click", function() {
-      if (smallCard.classList.contains("flipped")
-          || selectedCount >= 3
-          || animationInProgress) return;
-
-      // показываем лицевую сторону и фиксируем
-      smallCard.style.backgroundImage = `url("${smallCard.dataset.front}")`;
-      smallCard.classList.add("flipped");
-      selectedCount++;
-      openOverlay(smallCard.dataset.front);
-
-      // после 3 выборов — затеняем и блокируем остальные
-      if (selectedCount === 3) {
-        document.querySelectorAll(".cards-grid .small-card")
-          .forEach(card => {
-            if (!card.classList.contains("flipped")) {
-              card.style.pointerEvents = "none";
-              card.style.opacity = "0.5";
-            }
-          });
+      // если карта уже перевёрнута, то откроем её обратно
+      if (smallCard.classList.contains("flipped")) {
+        // показываем лицевую сторону
+        smallCard.style.backgroundImage = `url("${smallCard.dataset.front}")`;
+        smallCard.classList.remove("flipped");
+      } else {
+        // показываем заднюю сторону
+        smallCard.classList.add("flipped");
+        openOverlay(smallCard.dataset.front);
       }
     });
 
