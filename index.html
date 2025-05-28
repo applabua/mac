@@ -403,6 +403,9 @@
       box-shadow: 0 0 10px rgba(64,224,208,0.3);
       transition: transform 0.2s;
     }
+    .small-card.flipped {
+      transform: rotateY(180deg);
+    }
     .small-card:hover {
       transform: scale(1.05);
       box-shadow: 0 0 12px rgba(64,224,208,0.6);
@@ -891,6 +894,8 @@
         document.getElementById('notesTextArea').value = savedNotes || "";
       });
     });
+
+    let selectedCount = 0;
     
     function hidePreloader() {
       const preloader = document.getElementById('preloader');
@@ -1037,6 +1042,7 @@
       disableInteractions();
       const grid = document.querySelector(".cards-grid");
       grid.innerHTML = "";
+      selectedCount = 0;
       for (let i = 0; i < count; i++) {
         const container = document.createElement("div");
         container.classList.add("card-container");
@@ -1245,10 +1251,23 @@
         }, 50);
         
         smallCard.addEventListener("click", function(e) {
-          if (animationInProgress) return;
-          let bg = front.style.backgroundImage;
-          openOverlay(bg);
-        });
+  // не больше 3 выборов и без оверлея
+  if (smallCard.classList.contains("flipped") || selectedCount >= 3) return;
+
+  // переворачиваем карту на месте
+  smallCard.classList.add("flipped");
+  selectedCount++;
+
+  // после 3-х сделаем остальные полупрозрачными и некликабельными
+  if (selectedCount === 3) {
+    document.querySelectorAll(".cards-grid .small-card").forEach(card => {
+      if (!card.classList.contains("flipped")) {
+        card.style.pointerEvents = "none";
+        card.style.opacity = "0.5";
+      }
+    });
+  }
+});
       }
       setTimeout(enableInteractions, 2000);
     }
