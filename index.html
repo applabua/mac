@@ -422,12 +422,24 @@
       height: 100%;
     }
     .small-card {
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  transition: transform 0.6s ease;
+  width: 80px;
+  height: 112px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
 }
+
+/* Перевернутая карта */
 .small-card.flipped {
-  transform: rotateY(180deg);
+  transform: rotateY(180deg); /* Переворачиваем карту */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
     
     /* Секция "72 карт" */
@@ -1071,17 +1083,29 @@
 
     // клик: переворот, оверлей и ограничение трёх выборов
     smallCard.addEventListener("click", function() {
-      // если карта уже перевёрнута, то откроем её обратно
-      if (smallCard.classList.contains("flipped")) {
-        // показываем лицевую сторону
-        smallCard.style.backgroundImage = `url("${smallCard.dataset.front}")`;
-        smallCard.classList.remove("flipped");
-      } else {
-        // показываем заднюю сторону
-        smallCard.classList.add("flipped");
-        openOverlay(smallCard.dataset.front);
-      }
-    });
+  if (smallCard.classList.contains("flipped")
+      || selectedCount >= 3
+      || animationInProgress) return;
+
+  // Показываем лицевую сторону карты
+  smallCard.style.backgroundImage = `url("${smallCard.dataset.front}")`;
+  smallCard.classList.add("flipped"); // Переворачиваем карту
+  selectedCount++;
+
+  // Открытие оверлея
+  openOverlay(smallCard.dataset.front);
+
+  // После 3 выборов — блокируем остальные
+  if (selectedCount === 3) {
+    document.querySelectorAll(".cards-grid .small-card")
+      .forEach(card => {
+        if (!card.classList.contains("flipped")) {
+          card.style.pointerEvents = "none";
+          card.style.opacity = "0.5";
+        }
+      });
+  }
+});
 
     container.appendChild(smallCard);
     grid.appendChild(container);
