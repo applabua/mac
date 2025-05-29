@@ -198,10 +198,14 @@
 .btn.shuffle-btn {
   padding: 4px 10px;
   min-width: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .btn.shuffle-btn img {
   width: 16px;
   height: 16px;
+  filter: none; /* убираем инверсию */
 }
 
 /* 2) Оформляем контейнер для двух кнопок */
@@ -859,10 +863,11 @@
     </button>
     <!-- Кнопка "Перетасувати" -->
     <button id="shuffleIconBtn" class="btn shuffle-btn" onclick="shuffleCards()">
-      <img src="https://i.ibb.co/Mx5F8K9y/59-1.png" alt="Shuffle">
+      <img src="https://i.ibb.co/jP8HZYJr/7-1.png" alt="Shuffle">
     </button>
   </div>
-     <!-- Текст под кнопками -->
+
+  <!-- Подпись под кнопками -->
   <div class="center-text">
     Прислухайся до себе та обери свою карту:
   </div>
