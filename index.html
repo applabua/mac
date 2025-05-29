@@ -204,8 +204,8 @@
 }
 .btn.shuffle-btn img {
   filter: brightness(0) invert(1); /* белые */
-  width: 18px;    /* чуть больше */
-  height: 18px;
+  width: 17px;    /* чуть больше */
+  height: 17px;
 }
 
 /* 2) Оформляем контейнер для двух кнопок */
@@ -235,8 +235,13 @@
       display: inline-flex;
       align-items: center;
       white-space: nowrap;
-      margin-left: 12px;
+      
     }
+    
+    /* Вот сюда вставьте: отступ текста вправо в секции Мак-карт */
+  #sectionMakKarti .center-text {
+    margin-left: 12px;
+  }
     
     /* Иконки под карточками */
     .deck-icons {
