@@ -226,23 +226,24 @@
     
     /* Изменённый стиль для центрального текста между кнопками */
     .center-text {
-      font-family: Georgia, serif;
-      font-size: 1rem; /* уменьшенный размер для вмещения в одну строку */
-      font-style: italic;
-      color: #fff;
-      text-shadow: 2px 2px 4px rgba(0,0,0,1);
-      margin: 0 10px;
-      display: inline-flex;
-      align-items: center;
-      white-space: nowrap;
-      
-    }
-    
-    /* Вот сюда вставьте: отступ текста вправо в секции Мак-карт */
-  #sectionMakKarti .center-text {
-    margin-left: 12px;
+    font-family: Georgia, serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0,0,0,1);
+    /* уберите здесь margin:0 10px; — он теперь не нужен */
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
   }
-    
+
+  /* вот это вставьте сразу ниже */
+  #sectionMakKarti .center-text {
+    display: block !important;
+    width: 100%;
+    text-align: center;
+    margin: 10px 0;
+  }
     /* Иконки под карточками */
     .deck-icons {
       display: flex;
