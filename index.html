@@ -203,9 +203,9 @@
   justify-content: center;
 }
 .btn.shuffle-btn img {
-  width: 16px;
-  height: 16px;
-  filter: none; /* убираем инверсию */
+  filter: brightness(0) invert(1); /* белые */
+  width: 18px;    /* чуть больше */
+  height: 18px;
 }
 
 /* 2) Оформляем контейнер для двух кнопок */
@@ -235,6 +235,7 @@
       display: inline-flex;
       align-items: center;
       white-space: nowrap;
+      margin-left: 12px;
     }
     
     /* Иконки под карточками */
