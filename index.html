@@ -194,7 +194,24 @@
     .btn.continue-btn img {
       transform: scaleY(-1);
     }
-    
+    /* 1) Делаем shuffle-кнопку таким же размером, как back-btn */
+.btn.shuffle-btn {
+  padding: 4px 10px;
+  min-width: auto;
+}
+.btn.shuffle-btn img {
+  width: 16px;
+  height: 16px;
+}
+
+/* 2) Оформляем контейнер для двух кнопок */
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+}
     .nav-buttons {
       display: flex;
       justify-content: space-between;
@@ -833,23 +850,28 @@
     </div>
   </div>
   
-  <!-- Секция "Мак‑карти" -->
-  <div id="sectionMakKarti" class="section">
-    <div class="nav-buttons">
-      <button class="btn back-btn" onclick="backToDeckInfo()">
-        <img src="https://i.ibb.co/s9NyJrT7/56-1.png" alt="Back">
-      </button>
-      <!-- Кнопка "Перетасувати" -->
-    <button id="shuffleIconBtn" class="icon-btn" onclick="shuffleCards()">
+  <!-- Секция "Мак-карти" -->
+<div id="sectionMakKarti" class="section">
+  <div class="nav-buttons">
+    <!-- Кнопка "Назад" -->
+    <button class="btn back-btn" onclick="backToDeckInfo()">
+      <img src="https://i.ibb.co/s9NyJrT7/56-1.png" alt="Back">
+    </button>
+    <!-- Кнопка "Перетасувати" -->
+    <button id="shuffleIconBtn" class="btn shuffle-btn" onclick="shuffleCards()">
       <img src="https://i.ibb.co/Mx5F8K9y/59-1.png" alt="Shuffle">
     </button>
   </div>
-      <span class="center-text">Прислухайся до себе та обери свою карту:</span>
-    </div>
-    <div class="content" style="margin-top: 35px;">
-      <div class="cards-grid"></div>
-    </div>
+     <!-- Текст под кнопками -->
+  <div class="center-text">
+    Прислухайся до себе та обери свою карту:
   </div>
+
+  <!-- Сетка карт -->
+  <div class="content" style="margin-top: 10px;">
+    <div class="cards-grid"></div>
+  </div>
+</div>
  
   <!-- Глобальный оверлей для карточки -->
   <div class="overlay" id="overlay">
