@@ -195,27 +195,27 @@
       transform: scaleY(-1);
     }
     /* 1) Делаем shuffle-кнопку таким же размером, как back-btn */
-.btn.shuffle-btn {
-  padding: 4px 10px;
-  min-width: auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-.btn.shuffle-btn img {
-  filter: brightness(0) invert(1); /* белые */
-  width: 17px;    /* чуть больше */
-  height: 17px;
-}
+    .btn.shuffle-btn {
+      padding: 4px 10px;
+      min-width: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn.shuffle-btn img {
+      filter: brightness(0) invert(1); /* белые */
+      width: 17px;    /* чуть больше */
+      height: 17px;
+    }
 
-/* 2) Оформляем контейнер для двух кнопок */
-.nav-buttons {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 10px;
-}
+    /* 2) Оформляем контейнер для двух кнопок */
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 10px;
+    }
     .nav-buttons {
       display: flex;
       justify-content: space-between;
@@ -226,24 +226,25 @@
     
     /* Изменённый стиль для центрального текста между кнопками */
     .center-text {
-    font-family: Georgia, serif;
-    font-size: 1rem;
-    font-style: italic;
-    color: #fff;
-    text-shadow: 2px 2px 4px rgba(0,0,0,1);
-    /* уберите здесь margin:0 10px; — он теперь не нужен */
-    display: inline-flex;
-    align-items: center;
-    white-space: nowrap;
-  }
+      font-family: Georgia, serif;
+      font-size: 1rem;
+      font-style: italic;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0,0,0,1);
+      /* уберите здесь margin:0 10px; — он теперь не нужен */
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+    }
 
-  /* вот это вставьте сразу ниже */
-  #sectionMakKarti .center-text {
-    display: block !important;
-    width: 100%;
-    text-align: center;
-    margin: 10px 0;
-  }
+    /* вот это вставьте сразу ниже */
+    #sectionMakKarti .center-text {
+      display: block !important;
+      width: 100%;
+      text-align: center;
+      margin: 10px 0;
+    }
+
     /* Иконки под карточками */
     .deck-icons {
       display: flex;
@@ -386,7 +387,7 @@
       text-align: justify;
     }
     
-    /* Секция "Мак‑карти" */
+    /* Секция "Мак-карти" */
     #sectionMakKarti {
       overflow: hidden;
     }
@@ -436,7 +437,6 @@
       background-position: center;  /* будет по центру */
       background-repeat: no-repeat; /* без повторения */
     }
-    }
     .small-card:hover {
       transform: scale(1.05);
       box-shadow: 0 0 12px rgba(64,224,208,0.6);
@@ -452,24 +452,24 @@
       height: 100%;
     }
     .small-card {
-  width: 80px;
-  height: 112px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  transition: transform 0.2s ease;
-  cursor: pointer;
-  border-radius: 8px;
-  overflow: hidden;
-  position: relative;
-}
+      width: 80px;
+      height: 112px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: transform 0.2s ease;
+      cursor: pointer;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
 
-/* Перевернутая карта */
-.small-card.flipped {
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
+    /* Перевернутая карта */
+    .small-card.flipped {
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
     
     /* Секция "72 карт" */
     #section72Cards {
@@ -757,6 +757,50 @@
     .social-right {
       display: none !important;
     }
+
+    /* Стили для платежного оверлея */
+    #paymentOverlay .payment-card {
+      position: relative;
+      width: 400px;
+      background: #1e1e2f;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(64,224,208,0.6), 0 0 20px rgba(64,224,208,0.4);
+      text-align: center;
+    }
+    #paymentOverlay .payment-card h2 {
+      font-family: 'Great Vibes', cursive;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+    #paymentOverlay .payment-card p {
+      font-family: Georgia, serif;
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+    #paymentOverlay .payment-card form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    #paymentOverlay .payment-card button {
+      font-family: 'Great Vibes', cursive;
+      font-size: 1.4rem;
+      padding: 10px 20px;
+      background: rgba(64,224,208,0.2);
+      border: 1px solid rgba(64,224,208,0.5);
+      border-radius: 6px;
+      cursor: pointer;
+      color: #fff;
+      text-decoration: none;
+      box-shadow: 0 0 4px rgba(64,224,208,0.5);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+    #paymentOverlay .payment-card button:hover {
+      background: rgba(64,224,208,0.4);
+      box-shadow: 0 0 6px rgba(64,224,208,0.6);
+    }
   </style>
 </head>
 <body>
@@ -862,29 +906,29 @@
   </div>
   
   <!-- Секция "Мак-карти" -->
-<div id="sectionMakKarti" class="section">
-  <div class="nav-buttons">
-    <!-- Кнопка "Назад" -->
-    <button class="btn back-btn" onclick="backToDeckInfo()">
-      <img src="https://i.ibb.co/s9NyJrT7/56-1.png" alt="Back">
-    </button>
-    <!-- Кнопка "Перетасувати" -->
-    <button id="shuffleIconBtn" class="btn shuffle-btn" onclick="shuffleCards()">
-      <img src="https://i.ibb.co/jP8HZYJr/7-1.png" alt="Shuffle">
-    </button>
-  </div>
+  <div id="sectionMakKarti" class="section">
+    <div class="nav-buttons">
+      <!-- Кнопка "Назад" -->
+      <button class="btn back-btn" onclick="backToDeckInfo()">
+        <img src="https://i.ibb.co/s9NyJrT7/56-1.png" alt="Back">
+      </button>
+      <!-- Кнопка "Перетасувати" -->
+      <button id="shuffleIconBtn" class="btn shuffle-btn" onclick="shuffleCards()">
+        <img src="https://i.ibb.co/jP8HZYJr/7-1.png" alt="Shuffle">
+      </button>
+    </div>
 
-  <!-- Подпись под кнопками -->
-  <div class="center-text">
-    Прислухайся до себе та обери свою карту:
-  </div>
+    <!-- Подпись под кнопками -->
+    <div class="center-text">
+      Прислухайся до себе та обери свою карту:
+    </div>
 
-  <!-- Сетка карт -->
-  <div class="content" style="margin-top: 10px;">
-    <div class="cards-grid"></div>
+    <!-- Сетка карт -->
+    <div class="content" style="margin-top: 10px;">
+      <div class="cards-grid"></div>
+    </div>
   </div>
-</div>
- 
+  
   <!-- Глобальный оверлей для карточки -->
   <div class="overlay" id="overlay">
     <div class="overlay-card-container">
@@ -898,6 +942,25 @@
           <a class="consult-button" href="https://t.me/" target="_blank" onclick="event.stopPropagation();">Отримати консультацію</a>
         </div>
       </div>
+    </div>
+  </div>
+  
+  <!-- Оверлей для оплаты -->
+  <div class="overlay" id="paymentOverlay">
+    <div class="payment-card">
+      <h2>Оплата доступу до колоди</h2>
+      <p>Щоб отримати доступ до повної колоди, оплатіть 1200 грн через PrivatBank.</p>
+      <form action="https://api.privatbank.ua/p24api/ishop" method="POST" target="_blank">
+        <!-- Параметри платежу PrivatBank. Заміни значення YOUR_MERCHANT_ID, ORDER_ID, SIGNATURE_STRING на реальні. -->
+        <input type="hidden" name="amt" value="1200" />
+        <input type="hidden" name="ccy" value="UAH" />
+        <input type="hidden" name="merchant" value="YOUR_MERCHANT_ID" />
+        <input type="hidden" name="order" value="ORDER_ID" />
+        <input type="hidden" name="description" value="Оплата доступу до колоди Дзеркало душі" />
+        <input type="hidden" name="signature" value="SIGNATURE_STRING" />
+        <button type="submit">Оплатити 1200 грн</button>
+      </form>
+      <button id="confirmPayment">Я оплатив</button>
     </div>
   </div>
   
@@ -935,9 +998,19 @@
         let savedNotes = localStorage.getItem('userNotes_' + selectedDate);
         document.getElementById('notesTextArea').value = savedNotes || "";
       });
+      // Обработчик кнопки подтверждения оплаты
+      document.getElementById('confirmPayment').addEventListener('click', function() {
+        localStorage.setItem('paid', 'true');
+        fullAccess = true;
+        document.getElementById('paymentOverlay').classList.remove('active');
+        enableAllCards();
+      });
     });
 
     let selectedCount = 0;
+    let animationInProgress = false;
+    let fullAccess = (localStorage.getItem('paid') === 'true');
+
     function hidePreloader() {
       const preloader = document.getElementById('preloader');
       preloader.style.opacity = '0';
@@ -964,8 +1037,6 @@
         container.appendChild(firefly);
       }
     }
-    
-    let animationInProgress = false;
     
     const dailyWishes = [
       "Нехай цей день принесе тобі світло, тепло та нові можливості для здійснення мрій.",
@@ -1074,74 +1145,93 @@
       "https://i.ibb.co/tMv1tytj/photo-2025-05-27-00-20-35.jpg.webp",
       "https://i.ibb.co/MmjkZ07/photo-2025-05-27-00-20-36-2.jpg.webp",
       "https://i.ibb.co/wrFTdFsQ/photo-2025-05-27-00-36-27.jpg.webp",
-      "https://i.ibb.co/s9VCNHWn/photo-2025-05-27-23-54-13.jpg.webp",
+      "https://i.ibb-co/s9VCNHWn/photo-2025-05-27-23-54-13.jpg.webp",
       "https://i.ibb.co/93ffP582/photo-2025-05-27-23-54-12.jpg.webp",
-      "https://i.ibb.co/TBzZjQ0w/photo-2025-05-27-23-54-13-2.jpg.webp",
-      "https://i.ibb.co/BK5sxgw8/photo-2025-05-28-23-30-40.jpg.webp"
+      "https://i.ibb-co/TBzZjQ0w/photo-2025-05-27-23-54-13-2.jpg.webp",
+      "https://i.ibb-co/BK5sxgw8/photo-2025-05-28-23-30-40.jpg.webp"
     ];
     
     function createSmallCards(count) {
-  disableInteractions();
-  const grid = document.querySelector(".cards-grid");
-  grid.innerHTML = "";
-  selectedCount = 0;
+      disableInteractions();
+      const grid = document.querySelector(".cards-grid");
+      grid.innerHTML = "";
+      selectedCount = 0;
 
-  for (let i = 0; i < count; i++) {
-    const container = document.createElement("div");
-    container.classList.add("card-container");
-    // рандомная разброска
-    const angle = Math.random() * Math.PI * 2;
-    const distance = 50 + Math.random() * 50;
-    container.style.transform =
-      `scale(0.9) translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
+      for (let i = 0; i < count; i++) {
+        const container = document.createElement("div");
+        container.classList.add("card-container");
+        // рандомная разброска
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 50 + Math.random() * 50;
+        container.style.transform =
+          `scale(0.9) translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
 
-    // создаём одну small-card
-    const smallCard = document.createElement("div");
-    smallCard.classList.add("small-card");
-    // запоминаем лицевую сторону и ставим рубашку
-    smallCard.dataset.front = bigImages[i];
-    smallCard.style.backgroundImage =
-      'url("https://i.ibb.co/wcWxxGp/IMG-8462.webp")';
+        // создаём одну small-card
+        const smallCard = document.createElement("div");
+        smallCard.classList.add("small-card");
+        // запоминаем лицевую сторону и ставим рубашку
+        smallCard.dataset.front = bigImages[i];
+        smallCard.style.backgroundImage =
+          'url("https://i.ibb.co/wcWxxGp/IMG-8462.webp")';
 
-    // клик: переворот, оверлей и ограничение трёх выборов
-    smallCard.addEventListener("click", function() {
-  if (smallCard.classList.contains("flipped")
-      || selectedCount >= 3
-      || animationInProgress) return;
+        // клик: переворот/показ оверлея или повторное открытие
+        smallCard.addEventListener("click", function() {
+          if (animationInProgress) return;
 
-  // Показываем лицевую сторону карты
-  smallCard.style.backgroundImage = `url("${smallCard.dataset.front}")`;
-  smallCard.classList.add("flipped"); // Переворачиваем карту
-  selectedCount++;
+          // Если пользователь уже оплатив та має повний доступ:
+          if (fullAccess) {
+            openOverlay(smallCard.dataset.front);
+            return;
+          }
 
-  // Открытие оверлея
-  openOverlay(smallCard.dataset.front);
+          // Если карта еще не перевернута и пользователь еще не исчерпал безкоштовні 3 карти:
+          if (!smallCard.classList.contains("flipped") && selectedCount < 3) {
+            // Показываем лицевую сторону карты
+            smallCard.style.backgroundImage = `url("${smallCard.dataset.front}")`;
+            smallCard.classList.add("flipped"); // Переворачиваем карту
+            selectedCount++;
 
-  // После 3 выборов — блокируем остальные
-  if (selectedCount === 3) {
-    document.querySelectorAll(".cards-grid .small-card")
-      .forEach(card => {
-        if (!card.classList.contains("flipped")) {
-          card.style.pointerEvents = "none";
-          card.style.opacity = "0.5";
-        }
-      });
-  }
-});
+            // Открытие оверлея с изображением
+            openOverlay(smallCard.dataset.front);
 
-    container.appendChild(smallCard);
-    grid.appendChild(container);
+            // Если после переворота это третья карта — предлагаем оплату:
+            if (selectedCount === 3) {
+              setTimeout(() => {
+                showPaymentOverlay();
+              }, 500); // Небольшая задержка после показа третьей карты
+            }
 
-    // анимация появления
-    setTimeout(() => {
-      container.classList.add("fade-in");
-      container.style.transform = "";
-    }, 50);
-  }
+            // После 3 выборов — блокируем остальные карты до оплаты
+            if (selectedCount === 3) {
+              document.querySelectorAll(".cards-grid .small-card")
+                .forEach(card => {
+                  if (!card.classList.contains("flipped")) {
+                    card.style.pointerEvents = "none";
+                    card.style.opacity = "0.5";
+                  }
+                });
+            }
+          }
+          // Если карта уже перевернута, но пользователь не оплатил:
+          else if (smallCard.classList.contains("flipped") && !fullAccess) {
+            // Просто ничего не делаем, чтобы не давать подсказки о повторном открытии
+            return;
+          }
+        });
 
-  // вернуть кликабельность после анимации
-  setTimeout(enableInteractions, 6000);
-}
+        container.appendChild(smallCard);
+        grid.appendChild(container);
+
+        // анимация появления
+        setTimeout(() => {
+          container.classList.add("fade-in");
+          container.style.transform = "";
+        }, 50);
+      }
+
+      // вернуть кликабельность после анимации (но не полную, только первые 3)
+      setTimeout(enableInteractions, 6000);
+    }
     
     function openOverlay(imgUrl) {
       if (animationInProgress) return;
@@ -1153,14 +1243,14 @@
       
       let chosenImg;
       if (imgUrl && imgUrl !== "" && imgUrl !== "none") {
-         chosenImg = imgUrl.replace(/^url\(["']?/, "").replace(/["']?\)$/, "");
+         chosenImg = imgUrl.replace(/^url\([\"']?/, "").replace(/[\"']?\)$/, "");
       } else {
          const randomIndex = Math.floor(Math.random() * bigImages.length);
          chosenImg = bigImages[randomIndex];
       }
       
       const bigCardFront = document.getElementById("bigCardFront");
-      bigCardFront.style.backgroundImage = 'url("' + chosenImg + '")';
+      bigCardFront.style.backgroundImage = `url("${chosenImg}")`;
       
       const randomWishIndex = Math.floor(Math.random() * dailyWishes.length);
       const wish = dailyWishes[randomWishIndex];
@@ -1305,7 +1395,7 @@
         const front = document.createElement("div");
         front.classList.add("small-card-front");
         if (i < 76) {
-          front.style.backgroundImage = 'url("' + bigImages[i] + '")';
+          front.style.backgroundImage = `url("${bigImages[i]}")`;
         } else {
           front.style.background = "rgba(64,224,208,0.2)";
         }
@@ -1331,17 +1421,19 @@
     const soundBtn = document.getElementById('soundBtn');
     const meditativeAudio = document.getElementById('meditativeAudio');
     let isPlaying = false;
-    soundBtn.addEventListener('click', function(e) {
-      if (!isPlaying) {
-        meditativeAudio.play();
-        soundBtn.classList.remove('muted');
-        isPlaying = true;
-      } else {
-        meditativeAudio.pause();
-        soundBtn.classList.add('muted');
-        isPlaying = false;
-      }
-    });
+    if (soundBtn) {
+      soundBtn.addEventListener('click', function(e) {
+        if (!isPlaying) {
+          meditativeAudio.play();
+          soundBtn.classList.remove('muted');
+          isPlaying = true;
+        } else {
+          meditativeAudio.pause();
+          soundBtn.classList.add('muted');
+          isPlaying = false;
+        }
+      });
+    }
     
     /* Функции для модального окна нотаток */
     function openNotes() {
@@ -1351,7 +1443,7 @@
         let yyyy = today.getFullYear();
         let mm = String(today.getMonth() + 1).padStart(2, '0');
         let dd = String(today.getDate()).padStart(2, '0');
-        dateInput.value = yyyy + '-' + mm + '-' + dd;
+        dateInput.value = `${yyyy}-${mm}-${dd}`;
       }
       let selectedDate = dateInput.value;
       let savedNotes = localStorage.getItem('userNotes_' + selectedDate);
@@ -1367,7 +1459,7 @@
         let yyyy = today.getFullYear();
         let mm = String(today.getMonth() + 1).padStart(2, '0');
         let dd = String(today.getDate()).padStart(2, '0');
-        notesDate = yyyy + '-' + mm + '-' + dd;
+        notesDate = `${yyyy}-${mm}-${dd}`;
       }
       localStorage.setItem('userNotes_' + notesDate, notes);
       document.getElementById('notesOverlay').classList.remove('active');
@@ -1378,6 +1470,20 @@
         closeNotesModal();
       }
     });
+
+    /* Показ оверлея оплаты */
+    function showPaymentOverlay() {
+      document.getElementById('paymentOverlay').classList.add('active');
+    }
+
+    /* Разблокировать все карты после оплаты */
+    function enableAllCards() {
+      const allCards = document.querySelectorAll(".cards-grid .small-card");
+      allCards.forEach(card => {
+        card.style.pointerEvents = "auto";
+        card.style.opacity = "1";
+      });
+    }
   </script>
 </body>
 </html>
