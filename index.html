@@ -976,16 +976,18 @@
       </div>
     </div>
   </div>
-  <div class="overlay" id="paymentOverlay">
-    <div class="payment-modal">
-      <h2>Полная версия за 1200 ₴</h2>
-      <p>
-        Чтобы продолжить открытие карт без ограничений, переведите 1200 грн на карту ПриватБанка: 
-        <strong>5169 3432 1234 5678</strong>
-      </p>
-      <button id="unlockBtn" class="btn">Разблокировать</button>
-    </div>
+  <!-- После </div> notesOverlay вставьте: -->
+<div class="overlay" id="paymentOverlay">
+  <div class="payment-modal" onclick="event.stopPropagation()">
+    <h2>Полная версия за 1200 ₴</h2>
+    <p>
+      Чтобы продолжить открытие карт без ограничений, переведите 1200 грн на карту ПриватБанка: 
+      <strong>5169 3432 1234 5678</strong>
+    </p>
+    <button id="unlockBtn" class="btn">Разблокировать</button>
   </div>
+</div>
+
   
   <!-- Огни (fireflies) -->
   <div class="fireflies"></div>
@@ -1184,17 +1186,17 @@
     smallCard.addEventListener("click", function() {
       if (animationInProgress) return;
 
-      // Если бесплатный лимит (3 карты) исчерпан и не заплатили — показываем окно оплаты
+      // Если бесплатный лимит (3 карты) исчерпан и не заплатили — открываем окно оплаты
       if (!isPaid() && selectedCount >= 3) {
         const paymentOverlay = document.getElementById('paymentOverlay');
         if (paymentOverlay) paymentOverlay.classList.add('active');
         return;
       }
 
-      // Если карточка уже перевёрнута или анимация в процессе — игнорируем
+      // Если карта уже перевёрнута или идёт анимация — ничего не делаем
       if (smallCard.classList.contains("flipped") || animationInProgress) return;
 
-      // Показываем лицевую сторону и отмечаем как перевёрнутую
+      // Переворачиваем карту
       smallCard.style.backgroundImage = `url("${smallCard.dataset.front}")`;
       smallCard.classList.add("flipped");
       selectedCount++;
