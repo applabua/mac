@@ -757,62 +757,206 @@
     .social-right {
       display: none !important;
     }
-    /* ===== Окно оплаты (полная версия) ===== */
-#paymentOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.85);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 10000;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-#paymentOverlay.active {
-  display: flex;
-  opacity: 1;
-}
-.payment-modal {
-  background: #1e1e2f;
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
+    /* ================== СТИЛИ: Форма оплаты ================== */
+#paymentStyledContainer {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 40px auto; /* центрирование */
+  font-family: 'Allura', cursive;
   color: #fff;
-  max-width: 90%;
-  box-shadow: 0 0 10px rgba(64,224,208,0.5);
 }
-.payment-modal h2 {
-  margin-bottom: 15px;
-  font-size: 1.8rem;
-  text-shadow: 2px 2px 4px rgba(0,0,0,1);
+
+.payment-card {
+  background: linear-gradient(135deg, #12122b, #232342);
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(64,224,208,0.4);
+  padding: 20px;
+  overflow: hidden;
 }
-.payment-modal p {
+
+/* ----- Верхняя часть: сумма и заказ ----- */
+.payment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
-  font-size: 1.2rem;
-  line-height: 1.4;
 }
-#unlockBtn {
+.amount-box {
+  background: rgba(64,224,208,0.1);
+  padding: 8px 12px;
+  border-radius: 6px;
+  text-align: center;
+}
+.amount-label {
+  display: block;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+.amount-value {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+.order-box {
+  text-align: center;
+}
+.order-label {
+  display: block;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+.order-value {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: normal;
+}
+
+/* ----- Кнопка Privat24 Pay ----- */
+.p24-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  color: #fff;
   font-family: 'Great Vibes', cursive;
-  font-size: 1.6rem;
-  padding: 12px 24px;
-  background: rgba(64,224,208,0.2);
-  border: 1px solid rgba(64,224,208,0.5);
+  font-size: 1.4rem;
+  padding: 10px;
+  margin: 0 auto 20px auto;
+  border: none;
   border-radius: 6px;
   cursor: pointer;
+  box-shadow: 0 0 8px rgba(0,0,0,0.5);
+  transition: background 0.3s, transform 0.2s;
+}
+.p24-button:hover {
+  background: rgba(0,0,0,0.8);
+  transform: translateY(-2px);
+}
+.p24-button:active {
+  transform: scale(0.97);
+}
+.p24-logo {
+  display: inline-block;
+  width: 24px; height: 24px;
+  background: #40E0D0;
+  color: #000;
+  font-weight: bold;
+  font-size: 1rem;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 24px;
+  margin-right: 8px;
+}
+
+/* ----- Вкладки ----- */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(64,224,208,0.3);
+  margin-bottom: 20px;
+}
+.tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
   color: #fff;
-  text-shadow: 2px 2px 4px rgba(0,0,0,1);
-  transition: background 0.3s, box-shadow 0.3s;
+  font-size: 1.1rem;
+  padding: 8px 0;
+  cursor: pointer;
+  transition: color 0.3s, border-bottom 0.3s;
+  border-bottom: 3px solid transparent;
 }
-#unlockBtn:hover {
-  background: rgba(64,224,208,0.4);
-  box-shadow: 0 0 6px rgba(64,224,208,0.6);
+.tab-btn.active {
+  color: #40E0D0;
+  border-bottom: 3px solid #40E0D0;
 }
-#unlockBtn:active {
-  transform: scale(0.95);
+.tab-btn:not(.active):hover {
+  color: rgba(64,224,208,0.8);
+}
+
+/* ----- Содержимое вкладок ----- */
+.tab-content {
+  position: relative;
+  min-height: 200px;
+}
+.tab-pane {
+  display: none;
+}
+.tab-pane.active {
+  display: block;
+}
+
+/* ----- Поля ввода ----- */
+.field-label {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+.field-input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1px solid rgba(64,224,208,0.4);
+  border-radius: 6px;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  outline: none;
+  transition: border-color 0.3s, background 0.3s;
+}
+.field-input::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+.field-input:focus {
+  background: rgba(255,255,255,0.15);
+  border-color: #40E0D0;
+}
+
+.flex-row {
+  display: flex;
+  gap: 10px;
+}
+.half {
+  flex: 1;
+}
+
+/* ----- Текст про соглашение ----- */
+.agreement-note {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  margin: 16px 0 12px 0;
+  line-height: 1.3;
+  text-align: center;
+}
+
+/* ----- Кнопка "Оплатить" ----- */
+.pay-button {
+  display: block;
+  width: 100%;
+  background: #40E0D0;
+  color: #000;
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.5rem;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(64,224,208,0.6);
+  transition: background 0.3s, transform 0.2s;
+}
+.pay-button:hover {
+  background: #32c5a8;
+  transform: translateY(-2px);
+}
+.pay-button:active {
+  transform: scale(0.97);
+}
+
+/* ----- Вкладка "Другой способ" ----- */
+.other-note {
+  text-align: center;
+  font-size: 1rem;
+  opacity: 0.8;
+  margin-top: 40px;
 }
   </style>
 </head>
@@ -896,6 +1040,62 @@
       </div>
     </div>
   </div>
+  <div id="paymentStyledContainer">
+  <div class="payment-card">
+    <!-- Верхняя часть: сумма и номер заказа -->
+    <div class="payment-header">
+      <div class="amount-box">
+        <span class="amount-label">К оплате:</span>
+        <span class="amount-value">525.00 UAH</span>
+      </div>
+      <div class="order-box">
+        <span class="order-label">Заказ №</span><span class="order-value">118575</span>
+      </div>
+    </div>
+
+    <!-- Кнопка Privat24 Pay -->
+    <button class="p24-button">
+      <span class="p24-logo">24</span> Pay Privat24
+    </button>
+
+    <!-- Вкладки: Карта / Другой способ -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="cardTab">Карта</button>
+      <button class="tab-btn" data-tab="otherTab">Другой способ</button>
+    </div>
+
+    <!-- Контент вкладок -->
+    <div class="tab-content">
+      <!-- Вкладка "Карта" -->
+      <div id="cardTab" class="tab-pane active">
+        <label class="field-label">
+          Номер карты
+          <input type="text" class="field-input" placeholder="•••• •••• •••• ••••" maxlength="19" />
+        </label>
+        <div class="flex-row">
+          <label class="field-label half">
+            Срок действия
+            <input type="text" class="field-input" placeholder="MM / YY" maxlength="5" />
+          </label>
+          <label class="field-label half">
+            CVV2
+            <input type="text" class="field-input" placeholder="•••" maxlength="3" />
+          </label>
+        </div>
+        <p class="agreement-note">
+          Нажимая на кнопку «Оплатить», Вы принимаете Пользовательское соглашение
+        </p>
+        <button class="pay-button">Оплатить</button>
+      </div>
+
+      <!-- Вкладка "Другой способ" (оставьте пустой или добавьте свой контент) -->
+      <div id="otherTab" class="tab-pane">
+        <p class="other-note">Выберите другой способ оплаты</p>
+        <!-- Здесь можно разместить, например, кнопку "Оплатить наличными" или инструкции -->
+      </div>
+    </div>
+  </div>
+</div>
   
   <!-- Секция "Розгорнути колоду" -->
   <div id="sectionDeckInfo" class="section">
@@ -976,18 +1176,6 @@
       </div>
     </div>
   </div>
-  <!-- После </div> notesOverlay вставьте: -->
-<div class="overlay" id="paymentOverlay">
-  <div class="payment-modal" onclick="event.stopPropagation()">
-    <h2>Полная версия за 1200 ₴</h2>
-    <p>
-      Чтобы продолжить открытие карт без ограничений, переведите 1200 грн на карту ПриватБанка: 
-      <strong>5169 3432 1234 5678</strong>
-    </p>
-    <button id="unlockBtn" class="btn">Разблокировать</button>
-  </div>
-</div>
-
   
   <!-- Огни (fireflies) -->
   <div class="fireflies"></div>
@@ -1018,16 +1206,6 @@
       }, 500);
     }
     
-    function isPaid() {
-      return localStorage.getItem('isPaid') === 'true';
-    }
-    function setPaid() {
-      localStorage.setItem('isPaid', 'true');
-      const paymentOverlay = document.getElementById('paymentOverlay');
-      if (paymentOverlay) paymentOverlay.classList.remove('active');
-      enableInteractions();
-    }
-  
     function createFireflies(count) {
       const container = document.querySelector(".fireflies");
       for (let i = 0; i < count; i++) {
@@ -1184,36 +1362,47 @@
 
     // клик: переворот, оверлей и ограничение трёх выборов
     smallCard.addEventListener("click", function() {
-      if (animationInProgress) return;
+  if (smallCard.classList.contains("flipped")
+      || selectedCount >= 3
+      || animationInProgress) return;
 
-      // Если бесплатный лимит (3 карты) исчерпан и не заплатили — открываем окно оплаты
-      if (!isPaid() && selectedCount >= 3) {
-        const paymentOverlay = document.getElementById('paymentOverlay');
-        if (paymentOverlay) paymentOverlay.classList.add('active');
-        return;
-      }
+  // Показываем лицевую сторону карты
+  smallCard.style.backgroundImage = `url("${smallCard.dataset.front}")`;
+  smallCard.classList.add("flipped"); // Переворачиваем карту
+  selectedCount++;
 
-      // Если карта уже перевёрнута или идёт анимация — ничего не делаем
-      if (smallCard.classList.contains("flipped") || animationInProgress) return;
+  // Открытие оверлея
+  openOverlay(smallCard.dataset.front);
 
-      // Переворачиваем карту
-      smallCard.style.backgroundImage = `url("${smallCard.dataset.front}")`;
-      smallCard.classList.add("flipped");
-      selectedCount++;
+  // После 3 выборов — блокируем остальные
+  if (selectedCount === 3) {
+    document.querySelectorAll(".cards-grid .small-card")
+      .forEach(card => {
+        if (!card.classList.contains("flipped")) {
+          card.style.pointerEvents = "none";
+          card.style.opacity = "0.5";
+          
+          // После загрузки страницы найдём все табы и панельки
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabPanes = document.querySelectorAll('.tab-pane');
 
-      // Открываем большой оверлей с текстом
-      openOverlay(smallCard.dataset.front);
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Снимаем класс active у всех кнопок и всех панелей
+        tabButtons.forEach(b => b.classList.remove('active'));
+        tabPanes.forEach(p => p.classList.remove('active'));
 
-      // Если только что выбрали третью бесплатную карту — блокируем остальные
-      if (!isPaid() && selectedCount === 3) {
-        document.querySelectorAll(".cards-grid .small-card").forEach(card => {
-          if (!card.classList.contains("flipped")) {
-            card.style.pointerEvents = "none";
-            card.style.opacity = "0.5";
-          }
-        });
-      }
+        // Назначаем активную кнопку и показываем соответствующую панель
+        btn.classList.add('active');
+        document.getElementById(btn.getAttribute('data-tab')).classList.add('active');
+      });
     });
+  });
+        }
+      });
+  }
+});
 
     container.appendChild(smallCard);
     grid.appendChild(container);
