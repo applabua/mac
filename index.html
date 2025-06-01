@@ -13,6 +13,9 @@
   <!-- Подключение красивого курсивного шрифта (Allura) -->
   <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
 
+  <!-- Скрипт Privat24 iPayWidget -->
+  <script src="https://api.privatbank.ua/p24api/ipay.js"></script>
+
   <style>
     /* Общие стили */
     * {
@@ -779,27 +782,8 @@
       margin-bottom: 20px;
       color: #fff;
     }
-    #paymentOverlay .payment-card form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    #paymentOverlay .payment-card button {
-      font-family: 'Great Vibes', cursive;
-      font-size: 1.4rem;
-      padding: 10px 20px;
-      background: rgba(64,224,208,0.2);
-      border: 1px solid rgba(64,224,208,0.5);
-      border-radius: 6px;
-      cursor: pointer;
-      color: #fff;
-      text-decoration: none;
-      box-shadow: 0 0 4px rgba(64,224,208,0.5);
-      transition: background 0.3s ease, box-shadow 0.3s ease;
-    }
-    #paymentOverlay .payment-card button:hover {
-      background: rgba(64,224,208,0.4);
-      box-shadow: 0 0 6px rgba(64,224,208,0.6);
+    #paymentOverlay .payment-card #privat-widget {
+      margin: 0 auto;
     }
   </style>
 </head>
@@ -949,18 +933,8 @@
   <div class="overlay" id="paymentOverlay">
     <div class="payment-card">
       <h2>Оплата доступу до колоди</h2>
-      <p>Щоб отримати доступ до повної колоди, оплатіть 1200 грн через PrivatBank.</p>
-      <form action="https://api.privatbank.ua/p24api/ishop" method="POST" target="_blank">
-        <!-- Параметри платежу PrivatBank. Заміни значення YOUR_MERCHANT_ID, ORDER_ID, SIGNATURE_STRING на реальні. -->
-        <input type="hidden" name="amt" value="1200" />
-        <input type="hidden" name="ccy" value="UAH" />
-        <input type="hidden" name="merchant" value="YOUR_MERCHANT_ID" />
-        <input type="hidden" name="order" value="ORDER_ID" />
-        <input type="hidden" name="description" value="Оплата доступу до колоди Дзеркало душі" />
-        <input type="hidden" name="signature" value="SIGNATURE_STRING" />
-        <button type="submit">Оплатити 1200 грн</button>
-      </form>
-      <button id="confirmPayment">Я оплатив</button>
+      <p>Щоб отримати доступ до повної колоди, оплатіть 1200 грн через Privat24.</p>
+      <div id="privat-widget"></div>
     </div>
   </div>
   
@@ -990,20 +964,24 @@
   <audio id="meditativeAudio" loop src="meditative.mp3"></audio>
   
   <script>
+    // Перевіряємо параметри URL для підтвердження оплати
+    function checkPaymentSuccess() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('paid') === 'true') {
+        localStorage.setItem('paid', 'true');
+        fullAccess = true;
+        enableAllCards();
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
+      checkPaymentSuccess();
       hidePreloader();
       // Обработчик изменения даты для загрузки заметок по выбранной дате
       document.getElementById('notesDate').addEventListener('change', function() {
         let selectedDate = this.value;
         let savedNotes = localStorage.getItem('userNotes_' + selectedDate);
         document.getElementById('notesTextArea').value = savedNotes || "";
-      });
-      // Обработчик кнопки подтверждения оплаты
-      document.getElementById('confirmPayment').addEventListener('click', function() {
-        localStorage.setItem('paid', 'true');
-        fullAccess = true;
-        document.getElementById('paymentOverlay').classList.remove('active');
-        enableAllCards();
       });
     });
 
@@ -1084,69 +1062,69 @@
       "https://i.ibb.co/cSqh0Y4b/photo-2025-05-26-17-55-34.jpg.webp",
       "https://i.ibb.co/d4ZCvq9Q/photo-2025-05-26-17-55-35-3.jpg.webp",
       "https://i.ibb.co/ksxT3vR2/photo-2025-05-26-17-55-35-2.jpg.webp",
-      "https://i.ibb.co/6JVD9jgJ/photo-2025-05-26-17-55-35.jpg.webp",
-      "https://i.ibb.co/4Rv7DBsR/photo-2025-05-26-17-55-36-2.jpg.webp",
-      "https://i.ibb.co/svP2KcgG/photo-2025-05-28-23-30-39.jpg.webp",
-      "https://i.ibb.co/BKt25h6Q/photo-2025-05-26-17-55-36.jpg.webp",
-      "https://i.ibb.co/21H3TC2K/photo-2025-05-26-17-55-37-2.jpg.webp",
-      "https://i.ibb.co/Kx4Jq4Pq/photo-2025-05-26-17-55-37.jpg.webp",
-      "https://i.ibb.co/4nsRBhPr/photo-2025-05-26-17-55-38-2.jpg.webp",
-      "https://i.ibb.co/zWfj7pS8/photo-2025-05-26-17-55-38.jpg.webp",
-      "https://i.ibb.co/whXpDsKv/photo-2025-05-26-17-55-39-2.jpg.webp",
-      "https://i.ibb.co/5Q6f4xL/photo-2025-05-26-17-55-39-3.jpg.webp",
-      "https://i.ibb.co/mr6yk1w9/photo-2025-05-26-17-55-39.jpg.webp",
-      "https://i.ibb.co/YT4DND1c/photo-2025-05-26-17-55-40-2.jpg.webp",
-      "https://i.ibb.co/q3q0J3zB/photo-2025-05-26-17-55-40.jpg.webp",
-      "https://i.ibb.co/HpXC6N0J/photo-2025-05-26-17-55-41.jpg.webp",
-      "https://i.ibb.co/wZL0158h/photo-2025-05-26-17-55-42.jpg.webp",
-      "https://i.ibb.co/0xy7zGD/photo-2025-05-26-17-55-43-2.jpg.webp",
-      "https://i.ibb.co/84BFk01x/photo-2025-05-26-17-55-43.jpg.webp",
-      "https://i.ibb.co/dw0zVMqT/photo-2025-05-26-17-55-44-2.jpg.webp",
-      "https://i.ibb.co/TxjHy32L/photo-2025-05-26-17-55-44-3.jpg.webp",
-      "https://i.ibb.co/Rkvdv27Z/photo-2025-05-26-17-55-44.jpg.webp",
-      "https://i.ibb.co/Q4cLfFn/photo-2025-05-26-17-55-45.jpg.webp",
-      "https://i.ibb.co/FqBkJQ4P/photo-2025-05-26-17-55-46-2.jpg.webp",
-      "https://i.ibb.co/Csm4t2dh/photo-2025-05-26-17-55-46.jpg.webp",
-      "https://i.ibb.co/vCB2SF2Z/photo-2025-05-26-17-55-47-2.jpg.webp",
-      "https://i.ibb.co/6cbbnGZb/photo-2025-05-26-17-55-47.jpg.webp",
-      "https://i.ibb.co/DDGp9PHD/photo-2025-05-26-17-55-48.jpg.webp",
-      "https://i.ibb.co/pBXP5Qnj/photo-2025-05-26-17-55-49.jpg.webp",
-      "https://i.ibb.co/KxwKFY5x/photo-2025-05-26-17-55-50.jpg.webp",
-      "https://i.ibb.co/zTDCq9Vs/photo-2025-05-26-20-48-28-2.jpg.webp",
-      "https://i.ibb.co/RkJdZNVN/photo-2025-05-26-20-48-28.jpg.webp",
-      "https://i.ibb.co/1J7Xpb8X/photo-2025-05-26-20-48-29.jpg.webp",
-      "https://i.ibb.co/yckRk6Dj/photo-2025-05-26-20-48-30-2.jpg.webp",
-      "https://i.ibb.co/CszjZVJy/photo-2025-05-26-20-48-30-3.jpg.webp",
-      "https://i.ibb.co/nshy7dLG/photo-2025-05-26-20-48-30.jpg.webp",
-      "https://i.ibb.co/7NxHK7t9/photo-2025-05-26-20-48-31-2.jpg.webp",
-      "https://i.ibb.co/bghM15x4/photo-2025-05-26-20-48-31-3.jpg.webp",
-      "https://i.ibb.co/QvKCTnsZ/photo-2025-05-26-20-48-31.jpg.webp",
-      "https://i.ibb.co/p6NKKgDS/photo-2025-05-26-20-48-32-2.jpg.webp",
-      "https://i.ibb.co/5WD1HQck/photo-2025-05-26-20-48-32.jpg.webp",
-      "https://i.ibb.co/F4H1nXCP/photo-2025-05-26-20-48-33-2.jpg.webp",
-      "https://i.ibb.co/VYxs6XYF/photo-2025-05-26-20-48-33.jpg.webp",
-      "https://i.ibb.co/Vc2bGZrR/photo-2025-05-26-21-36-20-2.jpg.webp",
-      "https://i.ibb.co/xKb5m45Z/photo-2025-05-26-21-36-20-3.jpg.webp",
-      "https://i.ibb.co/PvQtpRch/photo-2025-05-26-21-36-20.jpg.webp",
-      "https://i.ibb.co/xK33Pmmr/photo-2025-05-27-00-20-36.jpg.webp",
-      "https://i.ibb.co/YBLNVbYv/photo-2025-05-27-00-20-36-3.jpg.webp",
-      "https://i.ibb.co/h1HK9Svq/photo-2025-05-27-00-20-31-2.jpg.webp",
-      "https://i.ibb.co/MDcJ5DL8/photo-2025-05-27-00-20-31-3.jpg.webp",
-      "https://i.ibb.co/9HCytM77/photo-2025-05-27-00-20-31.jpg.webp",
-      "https://i.ibb.co/0yyMVWBZ/photo-2025-05-27-00-20-32-2.jpg.webp",
-      "https://i.ibb.co/svvKH579/photo-2025-05-27-00-20-32.jpg.webp",
-      "https://i.ibb.co/tTf80LqY/photo-2025-05-27-00-20-33-2.jpg.webp",
-      "https://i.ibb.co/20L1rPX2/photo-2025-05-27-00-20-33-3.jpg.webp",
-      "https://i.ibb.co/twp0F2m5/photo-2025-05-27-00-20-33.jpg.webp",
-      "https://i.ibb.co/Y4mHjmsX/photo-2025-05-27-00-20-34-2.jpg.webp",
-      "https://i.ibb.co/Rp8KxrVk/photo-2025-05-27-00-20-34-3.jpg.webp",
-      "https://i.ibb.co/9kw57Wyp/photo-2025-05-27-00-20-34.jpg.webp",
-      "https://i.ibb.co/gZZNWsXr/photo-2025-05-27-00-20-35-2.jpg.webp",
-      "https://i.ibb.co/tMv1tytj/photo-2025-05-27-00-20-35.jpg.webp",
-      "https://i.ibb.co/MmjkZ07/photo-2025-05-27-00-20-36-2.jpg.webp",
-      "https://i.ibb.co/wrFTdFsQ/photo-2025-05-27-00-36-27.jpg.webp",
+      "https://i.ibb-co/6JVD9jgJ/photo-2025-05-26-17-55-35.jpg.webp",
+      "https://i.ibb-co/4Rv7DBsR/photo-2025-05-26-17-55-36-2.jpg.webp",
+      "https://i.ibb-co/svP2KcgG/photo-2025-05-28-23-30-39.jpg.webp",
+      "https://i.ibb-co/BKt25h6Q/photo-2025-05-26-17-55-36.jpg.webp",
+      "https://i.ibb-co/21H3TC2K/photo-2025-05-26-17-55-37-2.jpg.webp",
+      "https://i.ibb-co/Kx4Jq4Pq/photo-2025-05-26-17-55-37.jpg.webp",
+      "https://i.ibb-co/4nsRBhPr/photo-2025-05-26-17-55-38-2.jpg.webp",
+      "https://i.ibb-co/zWfj7pS8/photo-2025-05-26-17-55-38.jpg.webp",
+      "https://i.ibb-co/whXpDsKv/photo-2025-05-26-17-55-39-2.jpg.webp",
+      "https://i.ibb-co/5Q6f4xL/photo-2025-05-26-17-55-39-3.jpg.webp",
+      "https://i.ibb-co/mr6yk1w9/photo-2025-05-26-17-55-39.jpg.webp",
+      "https://i.ibb-co/YT4DND1c/photo-2025-05-26-17-55-40-2.jpg.webp",
+      "https://i.ibb-co/q3q0J3zB/photo-2025-05-26-17-55-40.jpg.webp",
+      "https://i.ibb-co/HpXC6N0J/photo-2025-05-26-17-55-41.jpg.webp",
+      "https://i.ibb-co/wZL0158h/photo-2025-05-26-17-55-42.jpg.webp",
+      "https://i.ibb-co/0xy7zGD/photo-2025-05-26-17-55-43-2.jpg.webp",
+      "https://i.ibb-co/84BFk01x/photo-2025-05-26-17-55-43.jpg.webp",
+      "https://i.ibb-co/dw0zVMqT/photo-2025-05-26-17-55-44-2.jpg.webp",
+      "https://i.ibb-co/TxjHy32L/photo-2025-05-26-17-55-44-3.jpg.webp",
+      "https://i.ibb-co/Rkvdv27Z/photo-2025-05-26-17-55-44.jpg.webp",
+      "https://i.ibb-co/Q4cLfFn/photo-2025-05-26-17-55-45.jpg.webp",
+      "https://i.ibb-co/FqBkJQ4P/photo-2025-05-26-17-55-46-2.jpg.webp",
+      "https://i.ibb-co/Csm4t2dh/photo-2025-05-26-17-55-46.jpg.webp",
+      "https://i.ibb-co/vCB2SF2Z/photo-2025-05-26-17-55-47-2.jpg.webp",
+      "https://i.ibb-co/6cbbnGZb/photo-2025-05-26-17-55-47.jpg.webp",
+      "https://i.ibb-co/DDGp9PHD/photo-2025-05-26-17-55-48.jpg.webp",
+      "https://i.ibb-co/pBXP5Qnj/photo-2025-05-26-17-55-49.jpg.webp",
+      "https://i.ibb-co/KxwKFY5x/photo-2025-05-26-17-55-50.jpg.webp",
+      "https://i.ibb-co/zTDCq9Vs/photo-2025-05-26-20-48-28-2.jpg.webp",
+      "https://i.ibb-co/RkJdZNVN/photo-2025-05-26-20-48-28.jpg.webp",
+      "https://i.ibb-co/1J7Xpb8X/photo-2025-05-26-20-48-29.jpg.webp",
+      "https://i.ibb-co/yckRk6Dj/photo-2025-05-26-20-48-30-2.jpg.webp",
+      "https://i.ibb-co/CszjZVJy/photo-2025-05-26-20-48-30-3.jpg.webp",
+      "https://i.ibb-co/nshy7dLG/photo-2025-05-26-20-48-30.jpg.webp",
+      "https://i.ibb-co/7NxHK7t9/photo-2025-05-26-20-48-31-2.jpg.webp",
+      "https://i.ibb-co/bghM15x4/photo-2025-05-26-20-48-31-3.jpg.webp",
+      "https://i.ibb-co/QvKCTnsZ/photo-2025-05-26-20-48-31.jpg.webp",
+      "https://i.ibb-co/p6NKKgDS/photo-2025-05-26-20-48-32-2.jpg.webp",
+      "https://i.ibb-co/5WD1HQck/photo-2025-05-26-20-48-32.jpg.webp",
+      "https://i.ibb-co/F4H1nXCP/photo-2025-05-26-20-48-33-2.jpg.webp",
+      "https://i.ibb-co/VYxs6XYF/photo-2025-05-26-20-48-33.jpg.webp",
+      "https://i.ibb-co/Vc2bGZrR/photo-2025-05-26-21-36-20-2.jpg.webp",
+      "https://i.ibb-co/xKb5m45Z/photo-2025-05-26-21-36-20-3.jpg.webp",
+      "https://i.ibb-co/PvQtpRch/photo-2025-05-26-21-36-20.jpg.webp",
+      "https://i.ibb-co/xK33Pmmr/photo-2025-05-27-00-20-36.jpg.webp",
+      "https://i.ibb-co/YBLNVbYv/photo-2025-05-27-00-20-36-3.jpg.webp",
+      "https://i.ibb-co/h1HK9Svq/photo-2025-05-27-00-20-31-2.jpg.webp",
+      "https://i.ibb-co/MDcJ5DL8/photo-2025-05-27-00-20-31-3.jpg.webp",
+      "https://i.ibb-co/9HCytM77/photo-2025-05-27-00-20-31.jpg.webp",
+      "https://i.ibb-co/0yyMVWBZ/photo-2025-05-27-00-20-32-2.jpg.webp",
+      "https://i.ibb-co/svvKH579/photo-2025-05-27-00-20-32.jpg.webp",
+      "https://i.ibb-co/tTf80LqY/photo-2025-05-27-00-20-33-2.jpg.webp",
+      "https://i.ibb-co/20L1rPX2/photo-2025-05-27-00-20-33-3.jpg.webp",
+      "https://i.ibb-co/twp0F2m5/photo-2025-05-27-00-20-33.jpg.webp",
+      "https://i.ibb-co/Y4mHjmsX/photo-2025-05-27-00-20-34-2.jpg.webp",
+      "https://i.ibb-co/Rp8KxrVk/photo-2025-05-27-00-20-34-3.jpg.webp",
+      "https://i.ibb-co/9kw57Wyp/photo-2025-05-27-00-20-34.jpg.webp",
+      "https://i.ibb-co/gZZNWsXr/photo-2025-05-27-00-20-35-2.jpg.webp",
+      "https://i.ibb-co/tMv1tytj/photo-2025-05-27-00-20-35.jpg.webp",
+      "https://i.ibb-co/MmjkZ07/photo-2025-05-27-00-20-36-2.jpg.webp",
+      "https://i.ibb-co/wrFTdFsQ/photo-2025-05-27-00-36-27.jpg.webp",
       "https://i.ibb-co/s9VCNHWn/photo-2025-05-27-23-54-13.jpg.webp",
-      "https://i.ibb.co/93ffP582/photo-2025-05-27-23-54-12.jpg.webp",
+      "https://i.ibb-co/93ffP582/photo-2025-05-27-23-54-12.jpg.webp",
       "https://i.ibb-co/TBzZjQ0w/photo-2025-05-27-23-54-13-2.jpg.webp",
       "https://i.ibb-co/BK5sxgw8/photo-2025-05-28-23-30-40.jpg.webp"
     ];
@@ -1198,6 +1176,7 @@
             if (selectedCount === 3) {
               setTimeout(() => {
                 showPaymentOverlay();
+                initPrivatWidget(); // Инициализируем виджет Privat24
               }, 500); // Небольшая задержка после показа третьей карты
             }
 
@@ -1474,6 +1453,21 @@
     /* Показ оверлея оплаты */
     function showPaymentOverlay() {
       document.getElementById('paymentOverlay').classList.add('active');
+    }
+
+    /* Инициализация Privat24 iPayWidget */
+    function initPrivatWidget() {
+      const widget = new IPayWidget();
+      widget.run({
+        'merchant_id': 'YOUR_MERCHANT_ID',       // Замените на ваш Merchant ID
+        'order_id': 'ORDER_ID',                  // Замените на ваш уникальный Order ID
+        'amount': 1200,
+        'currency': 'UAH',
+        'description': 'Оплата колоди Дзеркало душі',
+        'language': 'uk',
+        'server_url': 'https://yourserver.com/callback',  // URL для callback Privat24
+        'result_url': 'https://yourdomain.com/index.html?paid=true'
+      });
     }
 
     /* Разблокировать все карты после оплаты */
